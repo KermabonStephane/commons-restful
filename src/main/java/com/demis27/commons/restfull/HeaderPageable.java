@@ -75,4 +75,20 @@ public record HeaderPageable(String elementName, Long page, Long size, Long tota
         String elementName = header.substring(ACCEPT_RANGES_HEADER_NAME.length() + 2);
         return new HeaderPageable(elementName, -1L, -1L, -1L);
     }
+
+    public String toRangeHeader() {
+        long start = page * size;
+        long end = Math.min((page + 1) * size - 1, total - 1);
+        return "%s: %s=%d-%d".formatted(RANGE_HEADER_NAME, elementName, start, end);
+    }
+
+    public String toContentRangeHeader() {
+        long start = page * size;
+        long end = Math.min((page + 1) * size - 1, total - 1);
+        return "%s: %s %d-%d/%d".formatted(CONTENT_RANGE_HEADER_NAME, elementName, start, end, total);
+    }
+
+    public String toAcceptRangesHeader() {
+        return "%s: %s".formatted(ACCEPT_RANGES_HEADER_NAME, elementName);
+    }
 }
