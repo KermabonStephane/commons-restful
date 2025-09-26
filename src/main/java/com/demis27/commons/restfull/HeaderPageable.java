@@ -2,21 +2,26 @@ package com.demis27.commons.restfull;
 
 import java.util.regex.Pattern;
 
-public record HeaderPageable(String elementName, Long page, Long size, Long total) {
+public record HeaderPageable(String elementName, long page, long size, long total) {
 
-    public final static Pattern RANGE_HEADER_PATTERN = Pattern.compile("Range: [a-zA-Z]+=(\\d+)-(\\d+)");
-    public final static Pattern CONTENT_RANGE_HEADER_PATTERN = Pattern.compile("Content-Range: [a-zA-Z]+ (\\d+)-(\\d+)/(\\d+)");
-    public final static Pattern ACCEPT_RANGES_HEADER_PATTERN = Pattern.compile("Accept-Ranges: [a-zA-Z]+");
-    public final static String RANGE_HEADER_NAME = "Range";
-    public final static String CONTENT_RANGE_HEADER_NAME = "Content-Range";
-    public final static String ACCEPT_RANGES_HEADER_NAME = "Accept-Ranges";
+    public static final Pattern RANGE_HEADER_PATTERN = Pattern.compile("Range: [a-zA-Z]+=(\\d+)-(\\d+)");
+    public static final Pattern CONTENT_RANGE_HEADER_PATTERN = Pattern.compile("Content-Range: [a-zA-Z]+ (\\d+)-(\\d+)/(\\d+)");
+    public static final Pattern ACCEPT_RANGES_HEADER_PATTERN = Pattern.compile("Accept-Ranges: [a-zA-Z]+");
+    public static final String RANGE_HEADER_NAME = "Range";
+    public static final String CONTENT_RANGE_HEADER_NAME = "Content-Range";
+    public static final String ACCEPT_RANGES_HEADER_NAME = "Accept-Ranges";
 
 
-    public HeaderPageable(String elementName, Long page, Long size, Long total) {
-        this.elementName = elementName;
-        this.page = page;
-        this.size = size;
-        this.total = total;
+    public HeaderPageable {
+        if (page < -1) {
+            throw new IllegalArgumentException("Page must be greater than or equal to 0, or -1 for unknown.");
+        }
+        if (size == 0 || size < -1) {
+            throw new IllegalArgumentException("Size must be greater than 0, or -1 for unknown.");
+        }
+        if (total < -1) {
+            throw new IllegalArgumentException("Total must be greater than or equal to 0, or -1 for unknown.");
+        }
     }
 
     public static HeaderPageable parseRangeHeader(String header) {
@@ -30,13 +35,13 @@ public record HeaderPageable(String elementName, Long page, Long size, Long tota
         String[] parts = header.substring(RANGE_HEADER_NAME.length() + 2).split("=");
         String elementName = parts[0];
         String[] range = parts[1].split("-");
-        Long start = Long.parseLong(range[0]);
-        Long end = Long.parseLong(range[1]);
+        long start = Long.parseLong(range[0]);
+        long end = Long.parseLong(range[1]);
         if (end <= start) {
             throw new IllegalArgumentException("Header '%s' is not in the correct format. The end must be greater than the start".formatted(header));
         }
-        Long size = end - start + 1;
-        Long page = start / size;
+        long size = end - start + 1;
+        long page = start / size;
 
         return new HeaderPageable(elementName, page, size, -1L);
     }
@@ -52,14 +57,14 @@ public record HeaderPageable(String elementName, Long page, Long size, Long tota
         String[] parts = header.substring(CONTENT_RANGE_HEADER_NAME.length() + 2).split(" ");
         String elementName = parts[0];
         String[] range = parts[1].split("[-/]");
-        Long start = Long.parseLong(range[0]);
-        Long end = Long.parseLong(range[1]);
-        Long total = Long.parseLong(range[2]);
+        long start = Long.parseLong(range[0]);
+        long end = Long.parseLong(range[1]);
+        long total = Long.parseLong(range[2]);
         if (end <= start) {
             throw new IllegalArgumentException("Header '%s' is not in the correct format. The end must be greater than the start".formatted(header));
         }
-        Long size = end - start + 1;
-        Long page = start / size;
+        long size = end - start + 1;
+        long page = start / size;
 
         return new HeaderPageable(elementName, page, size, total);
     }
@@ -121,23 +126,23 @@ public record HeaderPageable(String elementName, Long page, Long size, Long tota
 
     public static class Builder {
         String elementName;
-        Long page;
-        Long size;
-        Long total;
+        long page;
+        long size;
+        long total;
 
         public Builder elementName(String elementName) {
             this.elementName = elementName;
             return this;
         }
-        public Builder page(Long page) {
+        public Builder page(long page) {
             this.page = page;
             return this;
         }
-        public Builder size(Long size) {
+        public Builder size(long size) {
             this.size = size;
             return this;
         }
-        public Builder total(Long total) {
+        public Builder total(long total) {
             this.total = total;
             return this;
         }
