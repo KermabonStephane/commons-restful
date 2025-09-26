@@ -43,4 +43,16 @@ class HeaderPageableParseContentRangeHeaderSpec extends Specification {
         where: 'Header with bad format'
         header << ['Content-Range:', "element 0-9"]
     }
+
+    def 'We parse a Content-Range header with a bad range'() {
+        when: 'We parse a Content-Range header with a bad range'
+        HeaderPageable.parseContentRangeHeader(header)
+
+        then: 'An exception is thrown'
+        def e = thrown(IllegalArgumentException)
+        e.message == "Header '%s' is not in the correct format. The end must be greater than the start".formatted(header)
+
+        where: 'Header with bad range'
+        header << ['Content-Range: elements 10-0/100', 'Content-Range: elements 10-9/100']
+    }
 }

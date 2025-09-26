@@ -91,4 +91,58 @@ public record HeaderPageable(String elementName, Long page, Long size, Long tota
     public String toAcceptRangesHeader() {
         return "%s: %s".formatted(ACCEPT_RANGES_HEADER_NAME, elementName);
     }
+
+    public static Builder toBuilder(HeaderPageable headerPageable) {
+        return new Builder().elementName(headerPageable.elementName).page(headerPageable.page).size(headerPageable.size).total(headerPageable.total);
+    }
+
+    public HeaderPageable nextPage() {
+        long lastPage = (total - 1) / size;
+        if (page >= lastPage) {
+            throw new IndexOutOfBoundsException("Cannot move to next page from the last page");
+        }
+        return toBuilder(this).page(page + 1).build();
+    }
+
+    public HeaderPageable previousPage() {
+        if (page <= 0) {
+            throw new IndexOutOfBoundsException("Cannot move to previous page from the first page");
+        }
+        return toBuilder(this).page(page - 1).build();
+    }
+
+    public HeaderPageable firstPage() {
+        return new HeaderPageable(elementName, 0L, size, total);
+    }
+
+    public HeaderPageable lastPage() {
+        return new HeaderPageable(elementName, (total - 1) / size, size, total);
+    }
+
+    public static class Builder {
+        String elementName;
+        Long page;
+        Long size;
+        Long total;
+
+        public Builder elementName(String elementName) {
+            this.elementName = elementName;
+            return this;
+        }
+        public Builder page(Long page) {
+            this.page = page;
+            return this;
+        }
+        public Builder size(Long size) {
+            this.size = size;
+            return this;
+        }
+        public Builder total(Long total) {
+            this.total = total;
+            return this;
+        }
+        public HeaderPageable build() {
+            return new HeaderPageable(elementName, page, size, total);
+        }
+    }
 }
