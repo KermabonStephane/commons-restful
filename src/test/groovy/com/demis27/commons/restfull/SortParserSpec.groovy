@@ -5,7 +5,7 @@ import spock.lang.Unroll
 
 class SortParserSpec extends Specification {
 
-    def parser = new SortParser()
+    def parser = new Sort.SortParser()
 
     def 'parse a simple sorts string'() {
         given:
@@ -16,8 +16,8 @@ class SortParserSpec extends Specification {
 
         then:
         sorts.size() == 2
-        sorts.get(0) == new Sort("firstName", SortOrder.ASC)
-        sorts.get(1) == new Sort("lastName", SortOrder.DESC)
+        sorts.get(0) == new Sort("firstName", Sort.SortOrder.ASC)
+        sorts.get(1) == new Sort("lastName", Sort.SortOrder.DESC)
     }
 
     @Unroll
@@ -31,11 +31,11 @@ class SortParserSpec extends Specification {
 
         where:
         sortsAsString  | expectedSort
-        "firstName"      | new Sort("firstName", SortOrder.ASC)
-        "firstName:asc"  | new Sort("firstName", SortOrder.ASC)
-        "firstName:ASC"  | new Sort("firstName", SortOrder.ASC)
-        "firstName:desc" | new Sort("firstName", SortOrder.DESC)
-        "firstName:DESC" | new Sort("firstName", SortOrder.DESC)
+        "firstName"      | new Sort("firstName", Sort.SortOrder.ASC)
+        "firstName:asc"  | new Sort("firstName", Sort.SortOrder.ASC)
+        "firstName:ASC"  | new Sort("firstName", Sort.SortOrder.ASC)
+        "firstName:desc" | new Sort("firstName", Sort.SortOrder.DESC)
+        "firstName:DESC" | new Sort("firstName", Sort.SortOrder.DESC)
     }
 
     def 'parse sort without order'() {
@@ -47,8 +47,8 @@ class SortParserSpec extends Specification {
 
         then:
         sorts.size() == 2
-        sorts.get(0) == new Sort("firstName", SortOrder.ASC)
-        sorts.get(1) == new Sort("lastName", SortOrder.ASC)
+        sorts.get(0) == new Sort("firstName", Sort.SortOrder.ASC)
+        sorts.get(1) == new Sort("lastName", Sort.SortOrder.ASC)
     }
 
     def 'parse a complex valid sorts string with spaces'() {
@@ -57,9 +57,9 @@ class SortParserSpec extends Specification {
 
         then:
         sorts.size() == 3
-        sorts.get(0) == new Sort("firstName", SortOrder.ASC)
-        sorts.get(1) == new Sort("lastName", SortOrder.DESC)
-        sorts.get(2) == new Sort("age", SortOrder.ASC)
+        sorts.get(0) == new Sort("firstName", Sort.SortOrder.ASC)
+        sorts.get(1) == new Sort("lastName", Sort.SortOrder.DESC)
+        sorts.get(2) == new Sort("age", Sort.SortOrder.ASC)
     }
 
     @Unroll

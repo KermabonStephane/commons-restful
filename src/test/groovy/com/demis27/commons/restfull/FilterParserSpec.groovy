@@ -5,7 +5,7 @@ import spock.lang.Unroll
 
 class FilterParserSpec extends Specification {
 
-    def parser = new FilterParser()
+    def parser = new Filter.FilterParser()
 
     @Unroll
     def "Should parse a single filter with operator '#operator'"() {
@@ -23,11 +23,11 @@ class FilterParserSpec extends Specification {
 
         where:
         operator | expectedOperator
-        "eq"     | FilterOperator.EQUALS
-        "gt"     | FilterOperator.GREATER
-        "gte"    | FilterOperator.GREATER_OR_EQUALS
-        "lt"     | FilterOperator.LESS
-        "lte"    | FilterOperator.LESS_OR_EQUALS
+        "eq"     | Filter.FilterOperator.EQUALS
+        "gt"     | Filter.FilterOperator.GREATER
+        "gte"    | Filter.FilterOperator.GREATER_OR_EQUALS
+        "lt"     | Filter.FilterOperator.LESS
+        "lte"    | Filter.FilterOperator.LESS_OR_EQUALS
     }
 
     def "Should parse multiple filters"() {
@@ -40,10 +40,10 @@ class FilterParserSpec extends Specification {
         then: "Two Filter objects are created"
         filters.size() == 2
         filters[0].property == "firstname"
-        filters[0].operator == FilterOperator.EQUALS
+        filters[0].operator == Filter.FilterOperator.EQUALS
         filters[0].value == "John"
         filters[1].property == "lastname"
-        filters[1].operator == FilterOperator.EQUALS
+        filters[1].operator == Filter.FilterOperator.EQUALS
         filters[1].value == "Doe"
     }
 
