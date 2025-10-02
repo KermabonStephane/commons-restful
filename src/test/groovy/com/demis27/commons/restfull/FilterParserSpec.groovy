@@ -60,12 +60,13 @@ class FilterParserSpec extends Specification {
             null,
             "",
             " ",
-            "firstname eq",
+            "firstname eq ",
             "firstname eq John extra",
             "firstname foo John",
             " eq John",
             "firstname  John",
-            "firstname eq "
+            "firstname eq ",
+            "firstname eq John,   "
         ]
     }
 }
