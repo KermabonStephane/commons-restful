@@ -8,10 +8,8 @@ import java.util.stream.Collectors;
 
 /**
  * Represents a filter criterion for a query.
- *
  * A filter is composed of a `property`, an `operator`, and a `value`.
  * For example, to filter for users with the name "John", you would use:
- *
  * new Filter("name", Filter.FilterOperator.EQUALS, "John");
  *
  * @param property The name of the property to filter on.
@@ -54,12 +52,9 @@ public record Filter(String property, FilterOperator operator, String value) {
 
         /**
          * Parses a filter string into a list of `Filter` objects.
-         *
          * The filter string should be a comma-separated list of individual filters.
          * Each individual filter should be in the format: `property operator value`.
-         *
          * For example:
-         *
          * "name eq John,age gt 25"
          *
          * @param filterString The filter string to parse.

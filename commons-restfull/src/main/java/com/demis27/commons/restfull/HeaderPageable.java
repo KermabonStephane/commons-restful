@@ -5,16 +5,12 @@ import java.util.regex.Pattern;
 /**
  * Represents pagination information extracted from or intended for HTTP headers like `Range`, `Content-Range`, and `Accept-Ranges`.
  * This record provides a structured way to handle pagination based on HTTP range requests.
- *
  * Example Usage:
- *
  * Parsing a `Range` header:
- *
  * String rangeHeader = "Range: items=0-9";
  * HeaderPageable pageable = HeaderPageable.parseRangeHeader(rangeHeader);
  * // pageable.page() will be 0
  * // pageable.size() will be 10
- *
  * Creating a `Content-Range` header:
  * HeaderPageable pageable = new HeaderPageable("items", 0, 10, 100);
  * String contentRangeHeader = pageable.toContentRangeHeader();

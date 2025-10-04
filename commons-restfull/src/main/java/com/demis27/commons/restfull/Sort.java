@@ -6,10 +6,8 @@ import java.util.regex.Pattern;
 
 /**
  * Represents a sort criterion for a query.
- *
  * A sort criterion is composed of a `property` and a `SortOrder`.
  * For example, to sort by name in ascending order, you would use:
- *
  * new Sort("name", Sort.SortOrder.ASC);
  *
  * @param property The name of the property to sort on.
@@ -43,13 +41,10 @@ public record Sort(String property, SortOrder order) {
 
         /**
          * Parses a sort string into a list of `Sort` objects.
-         *
          * The sort string should be a comma-separated list of individual sort criteria.
          * Each individual sort criterion should be in the format: `property[:order]`.
          * If the order is not specified, it defaults to ascending (ASC).
-         *
          * For example:
-         *
          * "name,age:desc"
          *
          * @param input The sort string to parse.
