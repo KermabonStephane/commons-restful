@@ -7,8 +7,8 @@ Sonar: https://sonarcloud.io/
 ## Features
 
 * **Pagination**: Handle pagination through HTTP headers (`Range`, `Content-Range`, and `Accept-Ranges`).
-* **Sorting**: Easily parse and apply sorting criteria from request parameters.
-* **Filtering**: Parse and apply filtering criteria from request parameters.
+* **Sorting**: Easily parse sorting criteria from request parameters.
+* **Filtering**: Parse filtering criteria from request parameters.
 
 ## Usage
 
@@ -57,30 +57,4 @@ String filterString = "name eq John,age gt 25";
 Filter.FilterParser filterParser = new Filter.FilterParser();
 List<Filter> filters = filterParser.parse(filterString);
 // filters will contain [Filter[property=name, operator=EQUALS, value=John], Filter[property=age, operator=GREATER, value=25]]
-```
-
-### Spring Boot Integration
-
-You can use these classes in your Spring Boot controllers to handle pagination, sorting, and filtering.
-
-```java
-
-@GetMapping("/users")
-public ResponseEntity<List<User>> getUsers(
-        @RequestHeader(value = "Range", required = false) String range,
-        @RequestParam(value = "sort", required = false) String sort,
-        @RequestParam(value = "filter", required = false) String filter
-) {
-    HeaderPageable pageable = range != null ? HeaderPageable.parseRangeHeader(range) : new HeaderPageable("users", 0, 10, -1);
-    List<Sort> sorts = sort != null ? new Sort.SortParser().parse(sort) : Collections.emptyList();
-    List<Filter> filters = filter != null ? new Filter.FilterParser().parse(filter) : Collections.emptyList();
-
-    // Use pageable, sorts, and filters to query your data
-    // ...
-
-    // Return a response with Content-Range header
-    return ResponseEntity.ok()
-            .header("Content-Range", pageable.toContentRangeHeader())
-            .body(users);
-}
 ```
