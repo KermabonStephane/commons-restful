@@ -4,7 +4,6 @@ import groovy.transform.builder.Builder;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Represents a filter criterion for a query.
@@ -69,7 +68,7 @@ public record Filter(String property, FilterOperator operator, String value) {
 
             return Arrays.stream(filterParts)
                 .map(this::parseSingleFilter)
-                .collect(Collectors.toList());
+                    .toList();
         }
 
         /**

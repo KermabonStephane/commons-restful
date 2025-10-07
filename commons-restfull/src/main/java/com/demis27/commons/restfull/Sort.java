@@ -36,8 +36,7 @@ public record Sort(String property, SortOrder order) {
      */
     public static class SortParser {
 
-        // TODO add digit and _ in propertyName
-        private static final Pattern SORT_PATTERN = Pattern.compile("[a-zA-Z]+(?::asc|:ASC|:desc|:DESC|)?(?:,[a-zA-Z]+(?::asc|:ASC|:desc|:DESC|))*");
+        private static final Pattern SORT_PATTERN = Pattern.compile("[a-zA-Z_]+(?::asc|:ASC|:desc|:DESC|)?(?:,[a-zA-Z_]+(?::asc|:ASC|:desc|:DESC|))*");
 
         /**
          * Parses a sort string into a list of `Sort` objects.
@@ -52,11 +51,15 @@ public record Sort(String property, SortOrder order) {
          * @throws IllegalArgumentException if the sort string is null, blank, or invalid.
          */
         public List<Sort> parse(String input) {
-            if (input == null || input.replaceAll(" ", "").isBlank() || !SORT_PATTERN.matcher(input.replaceAll(" ", "")).matches()) {
+            if (input == null || input.isBlank()) {
+                throw new IllegalArgumentException("Bad format of the sorts string '%s'".formatted(input));
+            }
+            String cleanInput = input.replace(" ", "");
+            if (cleanInput.isBlank() || !SORT_PATTERN.matcher(cleanInput).matches()) {
                 throw new IllegalArgumentException("Bad format of the sorts string '%s'".formatted(input));
             }
 
-            String[] sortsAsString = input.replaceAll(" ", "").split(",");
+            String[] sortsAsString = cleanInput.split(",");
             return Arrays.stream(sortsAsString).map(sortAsString -> {
                 String[] split = sortAsString.split(":");
                 return new Sort(split[0], split.length == 1 ? SortOrder.ASC : SortOrder.valueOf(split[1].toUpperCase()));
