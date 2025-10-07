@@ -36,6 +36,7 @@ class SortParserSpec extends Specification {
         "firstName:ASC"  | new Sort("firstName", Sort.SortOrder.ASC)
         "firstName:desc" | new Sort("firstName", Sort.SortOrder.DESC)
         "firstName:DESC" | new Sort("firstName", Sort.SortOrder.DESC)
+        "first_name:DESC" | new Sort("first_name", Sort.SortOrder.DESC)
     }
 
     def 'parse sort without order'() {

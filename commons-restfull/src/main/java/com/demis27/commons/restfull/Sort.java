@@ -36,7 +36,7 @@ public record Sort(String property, SortOrder order) {
      */
     public static class SortParser {
 
-        private static final Pattern SORT_PATTERN = Pattern.compile("[a-zA-Z_]+(?::asc|:ASC|:desc|:DESC|)?(?:,[a-zA-Z_]+(?::asc|:ASC|:desc|:DESC|))*");
+        private static final Pattern SORT_PATTERN = Pattern.compile("(?i)[a-z_]+(?::(?:asc|desc))?(?:,[a-z_]+(?::(?:asc|desc))?)*");
 
         /**
          * Parses a sort string into a list of `Sort` objects.
