@@ -1,4 +1,4 @@
-# commons-restfull
+# commons-restful
 
 Common classes to help build RESTful services.
 
