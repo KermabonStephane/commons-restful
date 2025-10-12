@@ -66,6 +66,7 @@
 
     <scm>
         <developerConnection>scm:git:git://github.com/KermabonStephane/commons-restful.git</developerConnection>
+        <connection>scm:git:git://github.com/KermabonStephane/commons-restful.git</connection>
       <tag>commons-1.0.0</tag>
   </scm>
 </project>
