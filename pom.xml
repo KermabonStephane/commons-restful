@@ -67,6 +67,8 @@
     <scm>
         <developerConnection>scm:git:git://github.com/KermabonStephane/commons-restful.git</developerConnection>
         <connection>scm:git:git://github.com/KermabonStephane/commons-restful.git</connection>
+        <url>git@github.com:idhub-io/idhub-api.git</url>
+        <tag>HEAD</tag>
       <tag>commons-1.0.0</tag>
   </scm>
 </project>
