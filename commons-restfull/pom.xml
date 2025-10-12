@@ -12,10 +12,6 @@
 
     <artifactId>commons-restfull</artifactId>
 
-    <properties>
-        <jacoco.version>0.8.12</jacoco.version>
-    </properties>
-
     <build>
         <plugins>
             <plugin>
@@ -30,7 +26,7 @@
                     </execution>
                     <execution>
                         <id>report</id>
-                        <phase>prepare-package</phase>
+                        <phase>verify</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
