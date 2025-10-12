@@ -41,7 +41,8 @@ public record Filter(String property, FilterOperator operator, String value) {
         /**
          * Represents a "less than or equal to" comparison (e.g., `property lte value`).
          */
-        LESS_OR_EQUALS
+        LESS_OR_EQUALS,
+        LIKE
     }
 
     /**
@@ -102,6 +103,7 @@ public record Filter(String property, FilterOperator operator, String value) {
                 case "gte" -> FilterOperator.GREATER_OR_EQUALS;
                 case "lt" -> FilterOperator.LESS;
                 case "lte" -> FilterOperator.LESS_OR_EQUALS;
+                case "like" -> FilterOperator.LIKE;
                 default -> throw new IllegalArgumentException("Unknown operator: " + operatorString);
             };
 

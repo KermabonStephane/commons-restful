@@ -28,6 +28,7 @@ class FilterParserSpec extends Specification {
         "gte"    | Filter.FilterOperator.GREATER_OR_EQUALS
         "lt"     | Filter.FilterOperator.LESS
         "lte"    | Filter.FilterOperator.LESS_OR_EQUALS
+        "like" | Filter.FilterOperator.LIKE
     }
 
     def "Should parse multiple filters"() {
@@ -57,16 +58,16 @@ class FilterParserSpec extends Specification {
 
         where:
         filterString << [
-            null,
-            "",
-            " ",
-            "firstname eq ",
-            "firstname eq John extra",
-            "firstname foo John",
-            " eq John",
-            "firstname  John",
-            "firstname eq ",
-            "firstname eq John,   "
+                null,
+                "",
+                " ",
+                "firstname eq ",
+                "firstname eq John extra",
+                "firstname foo John",
+                " eq John",
+                "firstname  John",
+                "firstname eq ",
+                "firstname eq John,   "
         ]
     }
 }
