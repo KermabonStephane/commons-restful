@@ -65,4 +65,8 @@
             <url>https://maven.pkg.github.com/KermabonStephane/commons-restful</url>
         </repository>
     </distributionManagement>
+
+    <scm>
+        <developerConnection>scm:git:git://github.com/KermabonStephane/commons-restful.git</developerConnection>
+    </scm>
 </project>
