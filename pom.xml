@@ -23,7 +23,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <groovy.version>4.0.21</groovy.version>
         <jacoco.version>0.8.12</jacoco.version>
-        <sonar.coverage.jacoco.xmlReportPaths>commons-restful/target/site/jacoco/
+        <sonar.coverage.jacoco.xmlReportPaths>
+            ./commons-restful/target/site/jacoco/
         </sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
