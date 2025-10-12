@@ -13,7 +13,7 @@
     <description>Parent project for commons modules</description>
 
     <modules>
-        <module>commons-restfull</module>
+        <module>commons-restful</module>
     </modules>
 
     <properties>
