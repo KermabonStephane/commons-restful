@@ -24,7 +24,7 @@
         <groovy.version>4.0.21</groovy.version>
         <jacoco.version>0.8.12</jacoco.version>
         <sonar.coverage.jacoco.xmlReportPaths>
-            ./commons-restful/target/site/jacoco/
+            ./commons-restful/target/site/jacoco
         </sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
@@ -55,19 +55,5 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-        <plugins>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>prepare-agent</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
     </build>
 </project>
