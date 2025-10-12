@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>commons-jacoco-aggregate</artifactId>
+    <description>A module to have a global Jacoco report</description>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
