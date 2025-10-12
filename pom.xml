@@ -24,7 +24,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <groovy.version>4.0.21</groovy.version>
         <jacoco.version>0.8.12</jacoco.version>
-        <sonar.coverage.jacoco.xmlReportPaths>./jacoco-report/target/site/jacoco-aggregate/jacoco.xml
+        <sonar.coverage.jacoco.xmlReportPaths>./jacoco-report/target/site/jacoco-aggregate
         </sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
