@@ -73,6 +73,6 @@ class SortParserSpec extends Specification {
         e.message == "Bad format of the sorts string '$sortsAsString'"
 
         where:
-        sortsAsString << ["firstname:toto", "firstname:asc,lastname:bad", ",firstname", "firstname,", "firstname,,lastname", ":asc", " , "]
+        sortsAsString << [null, "", " ", "firstname:toto", "firstname:asc,lastname:bad", ",firstname", "firstname,", "firstname,,lastname", ":asc", " , "]
     }
 }
