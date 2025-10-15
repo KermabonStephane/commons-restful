@@ -23,7 +23,7 @@ authenticates using your GitHub username and the read-only token you created.
             <id>github</id>
             <username>KermabonStephane</username>
             <!-- This token is use to read the package from GitHub. This right is the only right gives to this token -->
-            <password>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</password>
+            <password>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</password>
         </server>
     </servers>
 
@@ -91,7 +91,7 @@ repositories {
         url = uri("https://maven.pkg.github.com/stephanekermabon/commons-restful")
         credentials {
             username = System.getenv("KermabonStephane")
-            password = System.getenv("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")
+            password = System.getenv("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")
         }
     }
 }
@@ -107,7 +107,7 @@ repositories {
         url = uri("https://maven.pkg.github.com/stephanekermabon/commons-restful")
         credentials {
             username = System.getenv("KermabonStephane")
-            password = System.getenv("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")
+            password = System.getenv("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")
         }
     }
 }

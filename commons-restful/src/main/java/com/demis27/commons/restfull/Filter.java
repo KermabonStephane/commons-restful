@@ -7,41 +7,44 @@ import java.util.List;
 
 /**
  * Represents a filter criterion for a query.
- * A filter is composed of a `property`, an `operator`, and a `value`.
+ * A filter is composed of a `property`, an `operator`, and a `values`.
  * For example, to filter for users with the name "John", you would use:
  * new Filter("name", Filter.FilterOperator.EQUALS, "John");
+ * This feature is in progress.
  *
  * @param property The name of the property to filter on.
  * @param operator The operator to use for the comparison.
- * @param value The value to compare against.
+ * @param values The list of values to compare against.
  */
 @Builder
-public record Filter(String property, FilterOperator operator, String value) {
+public record Filter(String property, FilterOperator operator, List<String> values) {
 
     /**
      * The supported filter operators.
      */
     public enum FilterOperator {
         /**
-         * Represents an equality comparison (e.g., `property eq value`).
+         * Represents an equality comparison (e.g., `property eq values`).
          */
         EQUALS,
         /**
-         * Represents a "greater than" comparison (e.g., `property gt value`).
+         * Represents a "greater than" comparison (e.g., `property gt values`).
          */
         GREATER,
         /**
-         * Represents a "greater than or equal to" comparison (e.g., `property gte value`).
+         * Represents a "greater than or equal to" comparison (e.g., `property gte values`).
          */
         GREATER_OR_EQUALS,
         /**
-         * Represents a "less than" comparison (e.g., `property lt value`).
+         * Represents a "less than" comparison (e.g., `property lt values`).
          */
         LESS,
         /**
-         * Represents a "less than or equal to" comparison (e.g., `property lte value`).
+         * Represents a "less than or equal to" comparison (e.g., `property lte values`).
          */
         LESS_OR_EQUALS,
+        NOT_EQUALS,
+        IN,
         LIKE
     }
 
@@ -53,7 +56,7 @@ public record Filter(String property, FilterOperator operator, String value) {
         /**
          * Parses a filter string into a list of `Filter` objects.
          * The filter string should be a comma-separated list of individual filters.
-         * Each individual filter should be in the format: `property operator value`.
+         * Each individual filter should be in the format: `property operator values`.
          * For example:
          * "name eq John,age gt 25"
          *
@@ -86,7 +89,7 @@ public record Filter(String property, FilterOperator operator, String value) {
 
             String[] parts = filterString.split(" ");
             if (parts.length != 3) {
-                throw new IllegalArgumentException("Invalid filter format for: '" + filterString + "'. Expected format is property operator value");
+                throw new IllegalArgumentException("Invalid filter format for: '" + filterString + "'. Expected format is property operator values");
             }
 
             String property = parts[0];
@@ -94,7 +97,7 @@ public record Filter(String property, FilterOperator operator, String value) {
             String value = parts[2];
 
             if (property.isBlank() || operatorString.isBlank() || value.isBlank()) {
-                throw new IllegalArgumentException("Property, operator, and value cannot be blank in filter: '" + filterString + "'");
+                throw new IllegalArgumentException("Property, operator, and values cannot be blank in filter: '" + filterString + "'");
             }
 
             FilterOperator operator = switch (operatorString) {
@@ -104,10 +107,12 @@ public record Filter(String property, FilterOperator operator, String value) {
                 case "lt" -> FilterOperator.LESS;
                 case "lte" -> FilterOperator.LESS_OR_EQUALS;
                 case "like" -> FilterOperator.LIKE;
+                case "in" -> FilterOperator.IN;
+                case "ne" -> FilterOperator.NOT_EQUALS;
                 default -> throw new IllegalArgumentException("Unknown operator: " + operatorString);
             };
 
-            return new Filter(property, operator, value);
+            return new Filter(property, operator, List.of(value));
         }
     }
 }
