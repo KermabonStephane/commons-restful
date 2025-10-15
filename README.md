@@ -1,6 +1,7 @@
 # commons-restful
 
-Common classes to help build RESTful services.
+Common classes to help build RESTful services. Read the [HowTo.md](HowTo.md) to know how integrates this library on your
+project.
 
 Sonar: https://sonarcloud.io/
 
