@@ -3,6 +3,8 @@
 Common classes to help build RESTful services. Read the [HowTo.md](HowTo.md) to know how integrates this library on your
 project.
 
+Read the [Release.md ](Release.md) for the releases.
+
 Sonar: https://sonarcloud.io/
 
 ## Features
