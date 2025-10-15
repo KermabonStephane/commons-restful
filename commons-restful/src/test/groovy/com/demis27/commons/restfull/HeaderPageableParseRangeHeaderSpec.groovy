@@ -16,6 +16,7 @@ class HeaderPageableParseRangeHeaderSpec extends Specification {
         where: 'We parse header with different values'
         header                   || page | size | elementName
         'Range: elements=0-9'    || 0    | 10   | 'elements'
+        'elements=0-9' || 0 | 10 | 'elements'
         'Range: elements=10-19'  || 1    | 10   | 'elements'
         'Range: records=20-29'   || 2    | 10   | 'records'
         'Range: records=100-199' || 1    | 100  | 'records'
@@ -43,7 +44,7 @@ class HeaderPageableParseRangeHeaderSpec extends Specification {
         e.message == "Header '%s' is not in the correct format. The format must be like 'Range: elements=0-9'".formatted(header)
 
         where: 'Header with bad format'
-        header << ['Range:', "elements 0-9", "elements=0-9", "Range: elements=0-"]
+        header << ['Range:', "elements:0-9", "Range: elements=0-"]
     }
 
     def 'We parse a Range header with a bad range'() {

@@ -26,7 +26,7 @@ public record HeaderPageable(String elementName, long page, long size, long tota
     /**
      * Regex pattern for a `Range` header. E.g., `Range: items=0-9`.
      */
-    public static final Pattern RANGE_HEADER_PATTERN = Pattern.compile("Range: [a-zA-Z]+=(\\d+)-(\\d+)");
+    public static final Pattern RANGE_HEADER_PATTERN = Pattern.compile("(Range: ){0,1}[a-zA-Z]+=(\\d+)-(\\d+)");
     /**
      * Regex pattern for a `Content-Range` header. E.g., `Content-Range: items 0-9/100`.
      */
@@ -82,7 +82,11 @@ public record HeaderPageable(String elementName, long page, long size, long tota
             throw new IllegalArgumentException("Header '" + header + "' is not in the correct format. The format must be like 'Range: elements=0-9'");
         }
 
-        String[] parts = header.substring(RANGE_HEADER_NAME.length() + 2).split("=");
+        String cleanHeader = header;
+        if (header.startsWith(RANGE_HEADER_NAME)) {
+            cleanHeader = header.substring(RANGE_HEADER_NAME.length() + 2);
+        }
+        String[] parts = cleanHeader.split("=");
         String elementName = parts[0];
         String[] range = parts[1].split("-");
         long start = Long.parseLong(range[0]);
@@ -152,9 +156,23 @@ public record HeaderPageable(String elementName, long page, long size, long tota
      * @return The formatted `Range` header string (e.g., "Range: items=0-9").
      */
     public String toRangeHeader() {
+        return toRangeHeader(true);
+    }
+
+    /**
+     * Converts this `HeaderPageable` object to a `Range` header string.
+     *
+     * @param includeHeaderName Choose if you want to add the header name or not.
+     * @return The formatted `Range` header string (e.g., "Range: items=0-9").
+     */
+    public String toRangeHeader(boolean includeHeaderName) {
         long start = page * size;
         long end = Math.min((page + 1) * size - 1, total - 1);
-        return "%s: %s=%d-%d".formatted(RANGE_HEADER_NAME, elementName, start, end);
+        if (includeHeaderName) {
+            return "%s: %s=%d-%d".formatted(RANGE_HEADER_NAME, elementName, start, end);
+        } else {
+            return "%s=%d-%d".formatted(elementName, start, end);
+        }
     }
 
     /**
@@ -163,9 +181,22 @@ public record HeaderPageable(String elementName, long page, long size, long tota
      * @return The formatted `Content-Range` header string (e.g., "Content-Range: items 0-9/100").
      */
     public String toContentRangeHeader() {
+        return toContentRangeHeader(true);
+    }
+
+    /**
+     * Converts this `HeaderPageable` object to a `Content-Range` header string.
+     *
+     * @return The formatted `Content-Range` header string (e.g., "Content-Range: items 0-9/100").
+     */
+    public String toContentRangeHeader(boolean includeHeaderName) {
         long start = page * size;
         long end = Math.min((page + 1) * size - 1, total - 1);
-        return "%s: %s %d-%d/%d".formatted(CONTENT_RANGE_HEADER_NAME, elementName, start, end, total);
+        if (includeHeaderName) {
+            return "%s: %s %d-%d/%d".formatted(CONTENT_RANGE_HEADER_NAME, elementName, start, end, total);
+        } else {
+            return "%s %d-%d/%d".formatted(elementName, start, end, total);
+        }
     }
 
     /**
