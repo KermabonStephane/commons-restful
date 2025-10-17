@@ -35,5 +35,6 @@ jobs:
         id: jacoco
         uses: madrapps/jacoco-report@v1.7.2
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           paths: |
             ${{ github.workspace }}/commons-jacoco-aggregate/target/site/jacoco-aggregate
