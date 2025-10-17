@@ -36,5 +36,7 @@ jobs:
         uses: madrapps/jacoco-report@v1.7.2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          min-coverage-overall: 80
+          min-coverage-changed-files: 90
           paths: |
             ${{ github.workspace }}/commons-jacoco-aggregate/target/site/jacoco-aggregate
