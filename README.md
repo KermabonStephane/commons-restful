@@ -38,14 +38,13 @@ String contentRangeHeader = pageable.toContentRangeHeader();
 
 ### Sorting
 
-The `Sort` record and `SortParser` class help with sorting.
+The `Sort` record help with sorting.
 
 **Parsing a sort string:**
 
 ```java
 String sortString = "name,age:desc";
-Sort.SortParser sortParser = new Sort.SortParser();
-List<Sort> sorts = sortParser.parse(sortString);
+List<Sort> sorts = Sort.parse(sortString);
 // sorts will contain [Sort[property=name, order=ASC], Sort[property=age, order=DESC]]
 ```
 

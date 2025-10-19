@@ -11,16 +11,16 @@ import java.util.regex.Pattern;
  * new Sort("name", Sort.SortOrder.ASC);
  *
  * @param property The name of the property to sort on.
- * @param order The sort order (ascending or descending).
+ * @param order    The sort order (ascending or descending).
  */
 public record Sort(String property, SortOrder order) {
 
+    private static final Pattern SORT_PATTERN = Pattern.compile("(?i)[a-z_]+(?::(?:asc|desc))?(?:,[a-z_]+(?::(?:asc|desc))?)*");
 
     /**
      * The supported sort orders.
      */
     public enum SortOrder {
-
         /**
          * Ascending order.
          */
@@ -32,38 +32,30 @@ public record Sort(String property, SortOrder order) {
     }
 
     /**
-     * A parser for creating a list of `Sort` objects from a string.
+     * Parses a sort string into a list of `Sort` objects.
+     * The sort string should be a comma-separated list of individual sort criteria.
+     * Each individual sort criterion should be in the format: `property[:order]`.
+     * If the order is not specified, it defaults to ascending (ASC).
+     * For example:
+     * "name,age:desc"
+     *
+     * @param input The sort string to parse.
+     * @return A list of `Sort` objects.
+     * @throws IllegalArgumentException if the sort string is null, blank, or invalid.
      */
-    public static class SortParser {
-
-        private static final Pattern SORT_PATTERN = Pattern.compile("(?i)[a-z_]+(?::(?:asc|desc))?(?:,[a-z_]+(?::(?:asc|desc))?)*");
-
-        /**
-         * Parses a sort string into a list of `Sort` objects.
-         * The sort string should be a comma-separated list of individual sort criteria.
-         * Each individual sort criterion should be in the format: `property[:order]`.
-         * If the order is not specified, it defaults to ascending (ASC).
-         * For example:
-         * "name,age:desc"
-         *
-         * @param input The sort string to parse.
-         * @return A list of `Sort` objects.
-         * @throws IllegalArgumentException if the sort string is null, blank, or invalid.
-         */
-        public List<Sort> parse(String input) {
-            if (input == null || input.isBlank()) {
-                throw new IllegalArgumentException("Bad format of the sorts string '%s'".formatted(input));
-            }
-            String cleanInput = input.replace(" ", "");
-            if (cleanInput.isBlank() || !SORT_PATTERN.matcher(cleanInput).matches()) {
-                throw new IllegalArgumentException("Bad format of the sorts string '%s'".formatted(input));
-            }
-
-            String[] sortsAsString = cleanInput.split(",");
-            return Arrays.stream(sortsAsString).map(sortAsString -> {
-                String[] split = sortAsString.split(":");
-                return new Sort(split[0], split.length == 1 ? SortOrder.ASC : SortOrder.valueOf(split[1].toUpperCase()));
-            }).toList();
+    public static List<Sort> parse(String input) {
+        if (input == null || input.isBlank()) {
+            throw new IllegalArgumentException("Bad format of the sorts string '%s'".formatted(input));
         }
+        String cleanInput = input.replace(" ", "");
+        if (cleanInput.isBlank() || !SORT_PATTERN.matcher(cleanInput).matches()) {
+            throw new IllegalArgumentException("Bad format of the sorts string '%s'".formatted(input));
+        }
+
+        String[] sortsAsString = cleanInput.split(",");
+        return Arrays.stream(sortsAsString).map(sortAsString -> {
+            String[] split = sortAsString.split(":");
+            return new Sort(split[0], split.length == 1 ? SortOrder.ASC : SortOrder.valueOf(split[1].toUpperCase()));
+        }).toList();
     }
 }

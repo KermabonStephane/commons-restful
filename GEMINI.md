@@ -7,7 +7,8 @@ This file provides instructions for Gemini on how to best assist you with this p
 This is a modern Java application built with Maven. The project uses Java 21.
 
 Key technologies:
-- Java 25
+
+- Java 21
 - Maven
 - Spock and Groovy for testing
 

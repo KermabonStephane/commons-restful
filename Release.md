@@ -7,6 +7,7 @@
 * [#6](https://github.com/KermabonStephane/commons-restful/issues/6) Accept range string 'elements=0-9'
 * [#7](https://github.com/KermabonStephane/commons-restful/issues/6) Choose if you include the header names when write
   header
+* [#9](https://github.com/KermabonStephane/commons-restful/issues/9) Move SortParser parse to Sort class
 
 ## Release 1.0.0
 

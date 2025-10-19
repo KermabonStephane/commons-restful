@@ -5,14 +5,13 @@ import spock.lang.Unroll
 
 class SortParserSpec extends Specification {
 
-    def parser = new Sort.SortParser()
 
     def 'parse a simple sorts string'() {
         given:
         def sortsAsString = "firstName:asc,lastName:desc"
 
         when:
-        def sorts = parser.parse(sortsAsString)
+        def sorts = Sort.parse(sortsAsString)
 
         then:
         sorts.size() == 2
@@ -23,7 +22,7 @@ class SortParserSpec extends Specification {
     @Unroll
     def 'parse a single sort: #sortsAsString'() {
         when:
-        def sorts = parser.parse(sortsAsString)
+        def sorts = Sort.parse(sortsAsString)
 
         then:
         sorts.size() == 1
@@ -44,7 +43,7 @@ class SortParserSpec extends Specification {
         def sortsAsString = "firstName,lastName"
 
         when:
-        def sorts = parser.parse(sortsAsString)
+        def sorts = Sort.parse(sortsAsString)
 
         then:
         sorts.size() == 2
@@ -54,7 +53,7 @@ class SortParserSpec extends Specification {
 
     def 'parse a complex valid sorts string with spaces'() {
         when:
-        def sorts = parser.parse("  firstName:asc  ,  lastName:DESC  ,  age  ")
+        def sorts = Sort.parse("  firstName:asc  ,  lastName:DESC  ,  age  ")
 
         then:
         sorts.size() == 3
@@ -66,7 +65,7 @@ class SortParserSpec extends Specification {
     @Unroll
     def 'parse throw an IllegalArgumentException for: #sortsAsString'() {
         when:
-        parser.parse(sortsAsString)
+        Sort.parse(sortsAsString)
 
         then:
         def e = thrown(IllegalArgumentException)
