@@ -14,6 +14,7 @@
     <modules>
         <module>commons-restful</module>
         <module>commons-jacoco-aggregate</module>
+        <module>commons-restfull-spring</module>
     </modules>
 
     <properties>
