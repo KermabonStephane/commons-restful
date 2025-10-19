@@ -1,6 +1,6 @@
 #Releases
 
-## Release 1.1.0 (SNAPSHOT)
+## Release 1.1.0
 
 ### New Features
 
