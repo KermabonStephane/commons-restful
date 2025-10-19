@@ -11,6 +11,7 @@
 * [#12](https://github.com/KermabonStephane/commons-restful/issues/12) Change Sort class name by QueryParamSort
 * [#14](https://github.com/KermabonStephane/commons-restful/issues/14) Rename Filter to QueryParamFilter and move parse
   method to record (and delete the FilterParser)
+* [#4](https://github.com/KermabonStephane/commons-restful/issues/4) Add In and Not Equals as Filter Operator
 
 ## Release 1.0.0
 

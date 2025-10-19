@@ -43,8 +43,17 @@ public record QueryParamFilter(String property, FilterOperator operator, List<St
          * Represents a "less than or equal to" comparison (e.g., `property lte values`).
          */
         LESS_OR_EQUALS,
+        /**
+         * Represents a "not equal to" comparison (e.g., `property ne values`).
+         */
         NOT_EQUALS,
+        /**
+         * Represents an "in" comparison (e.g., `property in values`).
+         */
         IN,
+        /**
+         * Represents a "like" comparison (e.g., `property like values`).
+         */
         LIKE
     }
 
