@@ -8,6 +8,7 @@
 * [#7](https://github.com/KermabonStephane/commons-restful/issues/6) Choose if you include the header names when write
   header
 * [#9](https://github.com/KermabonStephane/commons-restful/issues/9) Move SortParser parse to Sort class
+* [#12](https://github.com/KermabonStephane/commons-restful/issues/12) Change Sort class name by QueryParamSort
 
 ## Release 1.0.0
 

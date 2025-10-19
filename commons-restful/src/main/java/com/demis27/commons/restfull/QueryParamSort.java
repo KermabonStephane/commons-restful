@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  * @param property The name of the property to sort on.
  * @param order    The sort order (ascending or descending).
  */
-public record Sort(String property, SortOrder order) {
+public record QueryParamSort(String property, SortOrder order) {
 
     private static final Pattern SORT_PATTERN = Pattern.compile("(?i)[a-z_]+(?::(?:asc|desc))?(?:,[a-z_]+(?::(?:asc|desc))?)*");
 
@@ -43,7 +43,7 @@ public record Sort(String property, SortOrder order) {
      * @return A list of `Sort` objects.
      * @throws IllegalArgumentException if the sort string is null, blank, or invalid.
      */
-    public static List<Sort> parse(String input) {
+    public static List<QueryParamSort> parse(String input) {
         if (input == null || input.isBlank()) {
             throw new IllegalArgumentException("Bad format of the sorts string '%s'".formatted(input));
         }
@@ -55,7 +55,7 @@ public record Sort(String property, SortOrder order) {
         String[] sortsAsString = cleanInput.split(",");
         return Arrays.stream(sortsAsString).map(sortAsString -> {
             String[] split = sortAsString.split(":");
-            return new Sort(split[0], split.length == 1 ? SortOrder.ASC : SortOrder.valueOf(split[1].toUpperCase()));
+            return new QueryParamSort(split[0], split.length == 1 ? SortOrder.ASC : SortOrder.valueOf(split[1].toUpperCase()));
         }).toList();
     }
 }

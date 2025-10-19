@@ -38,14 +38,14 @@ String contentRangeHeader = pageable.toContentRangeHeader();
 
 ### Sorting
 
-The `Sort` record help with sorting.
+The `QueryParamSort` record help with sorting.
 
 **Parsing a sort string:**
 
 ```java
 String sortString = "name,age:desc";
-List<Sort> sorts = Sort.parse(sortString);
-// sorts will contain [Sort[property=name, order=ASC], Sort[property=age, order=DESC]]
+List<QueryParamSort> sorts = QueryParamSort.parse(sortString);
+// sorts will contain [QueryParamSort[property=name, order=ASC], QueryParamSort[property=age, order=DESC]]
 ```
 
 ### Filtering
