@@ -1,4 +1,8 @@
-#Releases
+# Releases
+
+## Release 1.2.0 - SNAPSHOT
+
+### New Features
 
 ## Release 1.1.0
 
