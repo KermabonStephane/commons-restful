@@ -3,9 +3,7 @@ package com.demis27.commons.restfull
 import spock.lang.Specification
 import spock.lang.Unroll
 
-class FilterParserSpec extends Specification {
-
-    def parser = new Filter.FilterParser()
+class QueryParamFilterParserSpec extends Specification {
 
     @Unroll
     def "Should parse a single filter with operator '#operator'"() {
@@ -13,7 +11,7 @@ class FilterParserSpec extends Specification {
         def filterString = "property ${operator} values"
 
         when: "The string is parsed"
-        def filters = parser.parse(filterString)
+        def filters = QueryParamFilter.parse(filterString)
 
         then: "A single Filter object is created with the correct operator"
         filters.size() == 1
@@ -23,14 +21,14 @@ class FilterParserSpec extends Specification {
 
         where:
         operator | expectedOperator
-        "eq"     | Filter.FilterOperator.EQUALS
-        "gt"     | Filter.FilterOperator.GREATER
-        "gte"    | Filter.FilterOperator.GREATER_OR_EQUALS
-        "lt"     | Filter.FilterOperator.LESS
-        "lte"    | Filter.FilterOperator.LESS_OR_EQUALS
-        "like" | Filter.FilterOperator.LIKE
-        "ne" | Filter.FilterOperator.NOT_EQUALS
-        "in" | Filter.FilterOperator.IN
+        "eq"   | QueryParamFilter.FilterOperator.EQUALS
+        "gt"   | QueryParamFilter.FilterOperator.GREATER
+        "gte"  | QueryParamFilter.FilterOperator.GREATER_OR_EQUALS
+        "lt"   | QueryParamFilter.FilterOperator.LESS
+        "lte"  | QueryParamFilter.FilterOperator.LESS_OR_EQUALS
+        "like" | QueryParamFilter.FilterOperator.LIKE
+        "ne"   | QueryParamFilter.FilterOperator.NOT_EQUALS
+        "in"   | QueryParamFilter.FilterOperator.IN
     }
 
     def "Should parse multiple filters"() {
@@ -38,22 +36,22 @@ class FilterParserSpec extends Specification {
         def filterString = "firstname eq John,lastname eq Doe"
 
         when: "The string is parsed"
-        def filters = parser.parse(filterString)
+        def filters = QueryParamFilter.parse(filterString)
 
         then: "Two Filter objects are created"
         filters.size() == 2
         filters[0].property == "firstname"
-        filters[0].operator == Filter.FilterOperator.EQUALS
+        filters[0].operator == QueryParamFilter.FilterOperator.EQUALS
         filters[0].values[0] == "John"
         filters[1].property == "lastname"
-        filters[1].operator == Filter.FilterOperator.EQUALS
+        filters[1].operator == QueryParamFilter.FilterOperator.EQUALS
         filters[1].values[0] == "Doe"
     }
 
     @Unroll
     def "Should throw exception for invalid filter string '#filterString'"() {
         when: "An invalid string is parsed"
-        parser.parse(filterString)
+        QueryParamFilter.parse(filterString)
 
         then: "An IllegalArgumentException is thrown"
         thrown(IllegalArgumentException)

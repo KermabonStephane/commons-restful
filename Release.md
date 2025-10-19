@@ -9,6 +9,8 @@
   header
 * [#9](https://github.com/KermabonStephane/commons-restful/issues/9) Move SortParser parse to Sort class
 * [#12](https://github.com/KermabonStephane/commons-restful/issues/12) Change Sort class name by QueryParamSort
+* [#14](https://github.com/KermabonStephane/commons-restful/issues/14) Rename Filter to QueryParamFilter and move parse
+  method to record (and delete the FilterParser)
 
 ## Release 1.0.0
 

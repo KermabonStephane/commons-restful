@@ -50,13 +50,12 @@ List<QueryParamSort> sorts = QueryParamSort.parse(sortString);
 
 ### Filtering
 
-The `Filter` record and `FilterParser` class help with filtering.
+The `QueryParamFilter` record help with filtering.
 
 **Parsing a filter string:**
 
 ```java
 String filterString = "name eq John,age gt 25";
-Filter.FilterParser filterParser = new Filter.FilterParser();
-List<Filter> filters = filterParser.parse(filterString);
-// filters will contain [Filter[property=name, operator=EQUALS, value=John], Filter[property=age, operator=GREATER, value=25]]
+List<Filter> filters = QueryParamFilter.parse(filterString);
+// filters will contain [QueryParamFilter[property=name, operator=EQUALS, value=John], QueryParamFilter[property=age, operator=GREATER, value=25]]
 ```
