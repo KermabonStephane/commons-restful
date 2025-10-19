@@ -14,7 +14,7 @@
     <modules>
         <module>commons-restful</module>
         <module>commons-jacoco-aggregate</module>
-        <module>commons-restfull-spring</module>
+        <module>commons-restful-spring</module>
     </modules>
 
     <properties>
@@ -37,6 +37,11 @@
                 <version>2.3-groovy-4.0</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>6.2.11</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
