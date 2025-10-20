@@ -260,7 +260,7 @@ public record HeaderPageable(String elementName, int page, int size, long total)
      * @return A new `HeaderPageable` for the last page.
      */
     public HeaderPageable lastPage() {
-        return new HeaderPageable(elementName, Long.valueOf((total - 1) / size).intValue(), size, total);
+        return new HeaderPageable(elementName, (int) ((total - 1) / size), size, total);
     }
 
     /**
