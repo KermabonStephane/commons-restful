@@ -39,6 +39,6 @@ class HeaderPageableParseAcceptRangeHeaderSpec extends Specification {
         e.message == "Header '%s' is not in the correct format. The format must be like 'Accept-Ranges: elements'".formatted(header)
 
         where: 'Header with bad format'
-        header << ['Accept-Ranges:', "elementsName"]
+        header << ['Accept-Ranges:', ": elementsName"]
     }
 }
