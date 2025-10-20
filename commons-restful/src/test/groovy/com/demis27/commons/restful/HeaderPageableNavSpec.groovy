@@ -22,7 +22,7 @@ class HeaderPageableNavSpec extends Specification {
 
         where:
         currentPage | expectedPage
-        1           | 2
+        0           | 1
         2           | 3
         8           | 9
     }
@@ -56,6 +56,7 @@ class HeaderPageableNavSpec extends Specification {
 
         where:
         currentPage | expectedPage
+        1           | 0
         2           | 1
         9           | 8
         5           | 4
@@ -63,7 +64,7 @@ class HeaderPageableNavSpec extends Specification {
 
     def "Test previousPage navigation on first page throws exception"() {
         given:
-        def headerPageable = new HeaderPageable("elements", 1, 10, 100L)
+        def headerPageable = new HeaderPageable("elements", 0, 10, 100L)
 
         when: 'We get the previous page'
         headerPageable.previousPage()
@@ -96,7 +97,7 @@ class HeaderPageableNavSpec extends Specification {
     @Unroll
     def "Test lastPage navigation with total #total and size #size"() {
         given:
-        def headerPageable = new HeaderPageable("elements", 1, size, total)
+        def headerPageable = new HeaderPageable("elements", 0, size, total)
 
         when: 'We get the last page'
         def lastPage = headerPageable.lastPage()

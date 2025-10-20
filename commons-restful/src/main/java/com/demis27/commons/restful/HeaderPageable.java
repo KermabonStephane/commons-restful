@@ -95,7 +95,7 @@ public record HeaderPageable(String elementName, int page, int size, long total)
             throw new IllegalArgumentException("Header '" + header + "' is not in the correct format. The end must be greater than the start");
         }
         int size = Math.toIntExact(end - start + 1);
-        int page = Math.toIntExact((start / size) + 1);
+        int page = Math.toIntExact((start / size));
 
         return new HeaderPageable(elementName, page, size, -1);
     }
@@ -239,7 +239,7 @@ public record HeaderPageable(String elementName, int page, int size, long total)
      * @throws IndexOutOfBoundsException if this is the first page.
      */
     public HeaderPageable previousPage() {
-        if (page == 1) {
+        if (page == 0) {
             throw new IndexOutOfBoundsException("Cannot move to previous page from the first page");
         }
         return toBuilder(this).page(page - 1).build();

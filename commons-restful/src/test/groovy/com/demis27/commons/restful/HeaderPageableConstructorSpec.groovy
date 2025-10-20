@@ -15,9 +15,9 @@ class HeaderPageableConstructorSpec extends Specification {
 
         where:
         page | size | total
-        1    | 1    | 0L
         -1   | -1   | -1L
         0    | 10   | -1L
+        1    | 1    | 0L
         -1   | 10   | 100L
     }
 

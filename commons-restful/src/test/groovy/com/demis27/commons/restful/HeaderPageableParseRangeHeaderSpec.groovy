@@ -15,12 +15,12 @@ class HeaderPageableParseRangeHeaderSpec extends Specification {
 
         where: 'We parse header with different values'
         header                   || page | size | elementName
-        'Range: elements=0-9'    || 1    | 10   | 'elements'
-        'elements=0-9'           || 1    | 10   | 'elements'
-        'Range: elements=10-19'  || 2    | 10   | 'elements'
-        'Range: records=20-29'   || 3    | 10   | 'records'
-        'Range: records=100-199' || 2    | 100  | 'records'
-        'Range: firstNames=0-99' || 1    | 100  | 'firstNames'
+        'Range: elements=0-9'    || 0    | 10   | 'elements'
+        'elements=0-9'           || 0    | 10   | 'elements'
+        'Range: elements=10-19'  || 1    | 10   | 'elements'
+        'Range: records=20-29'   || 2    | 10   | 'records'
+        'Range: records=100-199' || 1    | 100  | 'records'
+        'Range: firstNames=0-99' || 0    | 100  | 'firstNames'
     }
 
     def 'We parse a null or empty Range Header'() {

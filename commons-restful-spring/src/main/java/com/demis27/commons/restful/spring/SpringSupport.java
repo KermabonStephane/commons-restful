@@ -19,7 +19,7 @@ import java.util.stream.StreamSupport;
 @Component
 public class SpringSupport {
 
-    private static final PageRequest DEFAULT_SIMPLE_PAGE_REQUEST = PageRequest.of(1, 10);
+    private static final PageRequest DEFAULT_SIMPLE_PAGE_REQUEST = PageRequest.of(0, 10);
 
     /**
      * Parses a {@code Range} header string (e.g., "items=0-9") into a Spring Data {@link PageRequest}.
@@ -74,7 +74,7 @@ public class SpringSupport {
         if (sorts == null || sorts.isEmpty()) {
             return DEFAULT_SIMPLE_PAGE_REQUEST;
         }
-        return PageRequest.of(1, 10, toSort(sorts));
+        return PageRequest.of(0, 10, toSort(sorts));
     }
 
     /**
