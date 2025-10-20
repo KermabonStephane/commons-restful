@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  */
 public record QueryParamSort(String property, SortOrder order) {
 
-    private static final Pattern SORT_PATTERN = Pattern.compile("(?i)[a-z_]+(?::(?:asc|desc))?(?:,[a-z_]+(?::(?:asc|desc))?)*");
+    private static final Pattern SORT_PATTERN = Pattern.compile("(?i)[a-z0-9_]+(?::(?:asc|desc))?(?:,[a-z0-9_]+(?::(?:asc|desc))?)*");
 
     /**
      * The supported sort orders.

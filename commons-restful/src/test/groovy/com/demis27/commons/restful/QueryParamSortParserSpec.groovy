@@ -36,6 +36,7 @@ class QueryParamSortParserSpec extends Specification {
         "firstName:desc"  | new QueryParamSort("firstName", QueryParamSort.SortOrder.DESC)
         "firstName:DESC"  | new QueryParamSort("firstName", QueryParamSort.SortOrder.DESC)
         "first_name:DESC" | new QueryParamSort("first_name", QueryParamSort.SortOrder.DESC)
+        "addressLine1:DESC" | new QueryParamSort("addressLine1", QueryParamSort.SortOrder.DESC)
     }
 
     def 'parse sort without order'() {

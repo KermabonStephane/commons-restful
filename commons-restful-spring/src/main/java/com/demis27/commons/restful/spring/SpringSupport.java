@@ -1,10 +1,10 @@
 package com.demis27.commons.restful.spring;
 
+import com.demis27.commons.restful.HeaderPageable;
 import com.demis27.commons.restful.QueryParamSort;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
-import org.springframework.data.domain.PageRequest;
-import com.demis27.commons.restful.HeaderPageable;
 
 import java.util.List;
 import java.util.Spliterators;
@@ -21,6 +21,13 @@ public class SpringSupport {
 
     private static final PageRequest DEFAULT_SIMPLE_PAGE_REQUEST = PageRequest.of(1, 10);
 
+    /**
+     * Parses a {@code Range} header string (e.g., "items=0-9") into a Spring Data {@link PageRequest}.
+     * If the header is null, a default page request (page 1, size 10) is returned.
+     *
+     * @param rangeHeader The raw {@code Range} header string.
+     * @return A {@link PageRequest} with pagination information and unsorted order.
+     */
     public PageRequest parseFromHeader(String rangeHeader) {
         if (rangeHeader == null) {
             return DEFAULT_SIMPLE_PAGE_REQUEST;
@@ -42,6 +49,13 @@ public class SpringSupport {
         return PageRequest.of(header.page(), header.size(), Sort.unsorted());
     }
 
+    /**
+     * Parses a sort query parameter string (e.g., "name,age:desc") into a Spring Data {@link PageRequest}.
+     * If the sort string is null or empty, a default page request (page 1, size 10) is returned.
+     *
+     * @param sorts The raw sort query parameter string.
+     * @return A {@link PageRequest} with default pagination and specified sorting.
+     */
     public PageRequest parseFromQueryParam(String sorts) {
         if (sorts == null || sorts.isEmpty()) {
             return DEFAULT_SIMPLE_PAGE_REQUEST;
@@ -63,14 +77,22 @@ public class SpringSupport {
         return PageRequest.of(1, 10, toSort(sorts));
     }
 
+    /**
+     * Parses a {@code Range} header string and a sort query parameter string to create a {@link PageRequest}.
+     * It handles cases where either or both inputs are null by falling back to defaults or partial parsing.
+     *
+     * @param rangeHeader The raw {@code Range} header string for pagination.
+     * @param sorts       The raw sort query parameter string for sorting.
+     * @return A {@link PageRequest} containing both pagination and sorting information.
+     */
     public PageRequest parseFromRest(String rangeHeader, String sorts) {
-        if (rangeHeader == null && sorts == null) {
+        if (rangeHeader == null && (sorts == null || sorts.isEmpty())) {
             return DEFAULT_SIMPLE_PAGE_REQUEST;
         }
         if (rangeHeader == null) {
-            return parseFromHeader(sorts);
+            return parseFromQueryParam(sorts);
         }
-        if (sorts == null) {
+        if (sorts == null || sorts.isEmpty()) {
             return parseFromHeader(rangeHeader);
         }
         return convert(HeaderPageable.parseRangeHeader(rangeHeader), QueryParamSort.parse(sorts));
@@ -85,13 +107,13 @@ public class SpringSupport {
      * @return A {@link PageRequest} containing both pagination and sorting information.
      */
     public PageRequest convert(HeaderPageable header, List<QueryParamSort> sorts) {
-        if (header == null && sorts == null) {
+        if (header == null && (sorts == null || sorts.isEmpty())) {
             return DEFAULT_SIMPLE_PAGE_REQUEST;
         }
         if (header == null) {
             return convertFromQueryParamSorts(sorts);
         }
-        if (sorts == null) {
+        if (sorts == null || sorts.isEmpty()) {
             return convertFromHeader(header);
         }
         return PageRequest.of(header.page(), header.size(), toSort(sorts));
@@ -114,7 +136,7 @@ public class SpringSupport {
      * @param elementName The name of the resource being paginated (e.g., "items").
      * @return A {@link HeaderPageable} representing the pagination details.
      */
-    public HeaderPageable extractHeaderPageable(PageRequest pageRequest, String elementName){
+    public HeaderPageable extractHeaderPageable(PageRequest pageRequest, String elementName) {
         return new HeaderPageable(elementName, pageRequest.getPageNumber(), pageRequest.getPageSize(), -1);
     }
 

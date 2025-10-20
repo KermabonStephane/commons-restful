@@ -1,6 +1,6 @@
 # commons-restful
 
-## Module commons-restfull
+## Module commons-restful
 
 Common classes to help build RESTful services. Read the [HowTo.md](HowTo.md) to know how integrates this library on your
 project.
@@ -70,26 +70,71 @@ To use it, add the `commons-restful-spring` dependency to your project.
 
 ### Usage
 
-The `SpringPageableSupport` class can be injected as a Spring bean to handle conversions.
+The `SpringSupport` class can be injected as a Spring bean to handle conversions.
 
-**Convert `HeaderPageable` and `QueryParamSort` to `PageRequest`:**
+**Parsing a `Range` header string:**
 ```java
 @Autowired
-private SpringPageableSupport springPageableSupport;
+private SpringSupport springSupport;
 
-public PageRequest toPageRequest(HeaderPageable header, List<QueryParamSort> sorts) {
-    return springPageableSupport.parse(header, sorts);
+public PageRequest toPageRequest(String rangeHeader) {
+    // rangeHeader = "items=0-9"
+    return springSupport.parseFromHeader(rangeHeader);
+    // returns a PageRequest for page 1, size 10, unsorted.
 }
 ```
 
-**Extract `HeaderPageable` from `PageRequest`:**
+**Parsing a sort query parameter string:**
 ```java
 @Autowired
-private SpringPageableSupport springPageableSupport;
+private SpringSupport springSupport;
+
+public PageRequest toPageRequest(String sort) {
+    // sort = "name,age:desc"
+    return springSupport.parseFromQueryParam(sort);
+    // returns a PageRequest for page 1, size 10, with sorting by name ASC and age DESC.
+}
+```
+
+**Parsing both `Range` and sort strings:**
+```java
+@Autowired
+private SpringSupport springSupport;
+
+public PageRequest toPageRequest(String rangeHeader, String sort) {
+    // rangeHeader = "items=20-29", sort = "name:desc"
+    return springSupport.parseFromRest(rangeHeader, sort);
+    // returns a PageRequest for page 3, size 10, with sorting by name DESC.
+}
+```
+
+**Converting from `HeaderPageable` and `QueryParamSort` objects:**
+```java
+@Autowired
+private SpringSupport springSupport;
+
+public PageRequest toPageRequest(HeaderPageable header, List<QueryParamSort> sorts) {
+    return springSupport.convert(header, sorts);
+}
+```
+
+**Extracting `HeaderPageable` from `PageRequest`:**
+```java
+@Autowired
+private SpringSupport springSupport;
 
 public HeaderPageable fromPageRequest(PageRequest pageRequest) {
     // The element name (e.g., "items") needs to be provided.
-    return springPageableSupport.extractHeaderPageable(pageRequest, "items");
+    return springSupport.extractHeaderPageable(pageRequest, "items");
 }
 ```
 
+**Extracting `QueryParamSort` from `PageRequest`:**
+```java
+@Autowired
+private SpringSupport springSupport;
+
+public List<QueryParamSort> fromPageRequest(PageRequest pageRequest) {
+    return springSupport.extractSort(pageRequest);
+}
+```
