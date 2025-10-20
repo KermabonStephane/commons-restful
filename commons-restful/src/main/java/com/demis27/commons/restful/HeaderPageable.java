@@ -167,7 +167,7 @@ public record HeaderPageable(String elementName, int page, int size, long total)
      */
     public String toRangeHeader(boolean includeHeaderName) {
         int start = page * size;
-        int end = Math.min((page + 1) * size - 1, total - 1);
+        long end = Math.min((page + 1) * size - 1, total - 1);
         if (includeHeaderName) {
             return "%s: %s=%d-%d".formatted(RANGE_HEADER_NAME, elementName, start, end);
         } else {
@@ -191,7 +191,7 @@ public record HeaderPageable(String elementName, int page, int size, long total)
      */
     public String toContentRangeHeader(boolean includeHeaderName) {
         int start = page * size;
-        int end = Math.min((page + 1) * size - 1, total - 1);
+        long end = Math.min((page + 1) * size - 1, total - 1);
         if (includeHeaderName) {
             return "%s: %s %d-%d/%d".formatted(CONTENT_RANGE_HEADER_NAME, elementName, start, end, total);
         } else {

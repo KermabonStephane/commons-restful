@@ -67,7 +67,7 @@ public class SpringSupport {
         if (sorts == null) {
             return parseHeader(header);
         }
-        return PageRequest.of(Long.valueOf(header.page()).intValue(), Long.valueOf(header.size()).intValue(), toSort(sorts));
+        return PageRequest.of(header.page(), header.size(), toSort(sorts));
     }
 
     private Sort toSort(List<QueryParamSort> sorts) {
