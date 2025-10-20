@@ -94,8 +94,8 @@ public record HeaderPageable(String elementName, int page, int size, long total)
         if (end <= start) {
             throw new IllegalArgumentException("Header '" + header + "' is not in the correct format. The end must be greater than the start");
         }
-        int size = Long.valueOf(end - start + 1).intValue();
-        int page = Long.valueOf((start / size) + 1).intValue();
+        int size = Math.toIntExact(end - start + 1);
+        int page = Math.toIntExact((start / size) + 1);
 
         return new HeaderPageable(elementName, page, size, -1);
     }
@@ -124,8 +124,8 @@ public record HeaderPageable(String elementName, int page, int size, long total)
         if (end <= start) {
             throw new IllegalArgumentException("Header '" + header + "' is not in the correct format. The end must be greater than the start");
         }
-        int size = Long.valueOf(end - start + 1).intValue();
-        int page = Long.valueOf((start / size) + 1).intValue();
+        int size = Math.toIntExact(end - start + 1);
+        int page = Math.toIntExact((start / size) + 1);
 
         return new HeaderPageable(elementName, page, size, total);
     }
@@ -167,7 +167,7 @@ public record HeaderPageable(String elementName, int page, int size, long total)
      */
     public String toRangeHeader(boolean includeHeaderName) {
         int start = page * size;
-        long end = Math.min((page + 1) * size - 1, total - 1);
+        long end = Math.min((long) (page + 1) * size - 1, total - 1);
         if (includeHeaderName) {
             return "%s: %s=%d-%d".formatted(RANGE_HEADER_NAME, elementName, start, end);
         } else {
@@ -191,7 +191,7 @@ public record HeaderPageable(String elementName, int page, int size, long total)
      */
     public String toContentRangeHeader(boolean includeHeaderName) {
         int start = page * size;
-        long end = Math.min((page + 1) * size - 1, total - 1);
+        long end = Math.min((long) (page + 1) * size - 1, total - 1);
         if (includeHeaderName) {
             return "%s: %s %d-%d/%d".formatted(CONTENT_RANGE_HEADER_NAME, elementName, start, end, total);
         } else {
