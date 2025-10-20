@@ -1,4 +1,4 @@
-package com.demis27.commons.restfull
+package com.demis27.commons.restful
 
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -8,7 +8,7 @@ class HeaderPageableNavSpec extends Specification {
     @Unroll
     def "Test nextPage navigation from page #currentPage"() {
         given:
-        def headerPageable = new HeaderPageable("elements", currentPage, 10L, 100L)
+        def headerPageable = new HeaderPageable("elements", currentPage, 10, 100L)
 
         when: 'We get the next page'
         def nextPage = headerPageable.nextPage()
@@ -16,20 +16,20 @@ class HeaderPageableNavSpec extends Specification {
         then: 'The next page is correctly'
         nextPage.page == expectedPage
         and: 'Others parameters still the same'
-        nextPage.size == 10L
+        nextPage.size == 10
         nextPage.total == 100L
         nextPage.elementName == "elements"
 
         where:
         currentPage | expectedPage
-        1L          | 2L
-        0L          | 1L
-        8L          | 9L
+        1           | 2
+        2           | 3
+        8           | 9
     }
 
     def "Test nextPage navigation on last page throws exception"() {
         given:
-        def headerPageable = new HeaderPageable("elements", 9L, 10L, 100L)
+        def headerPageable = new HeaderPageable("elements", 9, 10, 100L)
 
         when: 'We get the next page'
         headerPageable.nextPage()
@@ -42,7 +42,7 @@ class HeaderPageableNavSpec extends Specification {
     @Unroll
     def "Test previousPage navigation from page #currentPage"() {
         given:
-        def headerPageable = new HeaderPageable("elements", currentPage, 10L, 100L)
+        def headerPageable = new HeaderPageable("elements", currentPage, 10, 100L)
 
         when: 'We get the previous page'
         def previousPage = headerPageable.previousPage()
@@ -50,20 +50,20 @@ class HeaderPageableNavSpec extends Specification {
         then: 'The previous page is correctly'
         previousPage.page == expectedPage
         and: 'Others parameters still the same'
-        previousPage.size == 10L
+        previousPage.size == 10
         previousPage.total == 100L
         previousPage.elementName == "elements"
 
         where:
         currentPage | expectedPage
-        1L          | 0L
-        9L          | 8L
-        5L          | 4L
+        2           | 1
+        9           | 8
+        5           | 4
     }
 
     def "Test previousPage navigation on first page throws exception"() {
         given:
-        def headerPageable = new HeaderPageable("elements", 0L, 10L, 100L)
+        def headerPageable = new HeaderPageable("elements", 1, 10, 100L)
 
         when: 'We get the previous page'
         headerPageable.previousPage()
@@ -77,26 +77,26 @@ class HeaderPageableNavSpec extends Specification {
     @Unroll
     def "Test firstPage navigation from page #currentPage"() {
         given:
-        def headerPageable = new HeaderPageable("elements", currentPage, 10L, 100L)
+        def headerPageable = new HeaderPageable("elements", currentPage, 10, 100L)
 
         when: 'We get the first page'
         def firstPage = headerPageable.firstPage()
 
         then: 'The first page is correctly'
-        firstPage.page == 0L
+        firstPage.page == 1
         and: 'Others parameters still the same'
-        firstPage.size == 10L
+        firstPage.size == 10
         firstPage.total == 100L
         firstPage.elementName == "elements"
 
         where:
-        currentPage << [1L, 9L, 5L, 0L]
+        currentPage << [2, 9, 5, 1]
     }
 
     @Unroll
     def "Test lastPage navigation with total #total and size #size"() {
         given:
-        def headerPageable = new HeaderPageable("elements", 1L, size, total)
+        def headerPageable = new HeaderPageable("elements", 1, size, total)
 
         when: 'We get the last page'
         def lastPage = headerPageable.lastPage()
@@ -109,10 +109,10 @@ class HeaderPageableNavSpec extends Specification {
         lastPage.elementName == "elements"
 
         where:
-        total | size | expectedPage
-        100L  | 10L  | 9L
-        101L  | 10L  | 10L
-        99L   | 10L  | 9L
-        100L  | 25L  | 3L
+        total | size || expectedPage
+        100L  | 10   || 9
+        101L  | 10   || 10
+        99L   | 10   || 9
+        100L  | 25   || 3
     }
 }

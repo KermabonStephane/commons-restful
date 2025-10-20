@@ -1,4 +1,4 @@
-package com.demis27.commons.restfull
+package com.demis27.commons.restful
 
 import spock.lang.Specification
 
@@ -16,8 +16,8 @@ class HeaderPageableParseContentRangeHeaderSpec extends Specification {
 
         where: 'We parse header with different values'
         header                             || page | size | total | elementName
-        'Content-Range: elements 0-9/100'  || 0    | 10   | 100   | 'elements'
-        'Content-Range: records 10-19/200' || 1    | 10   | 200   | 'records'
+        'Content-Range: elements 0-9/100'  || 1    | 10   | 100   | 'elements'
+        'Content-Range: records 10-19/200' || 2    | 10   | 200   | 'records'
     }
 
     def 'We parse a null or empty Content-Range Header'() {

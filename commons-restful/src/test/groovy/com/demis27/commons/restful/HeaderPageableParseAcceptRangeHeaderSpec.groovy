@@ -1,4 +1,4 @@
-package com.demis27.commons.restfull
+package com.demis27.commons.restful
 
 import spock.lang.Specification
 
