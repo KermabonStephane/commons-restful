@@ -21,6 +21,13 @@ public class SpringSupport {
 
     private static final PageRequest DEFAULT_SIMPLE_PAGE_REQUEST = PageRequest.of(1, 10);
 
+    public PageRequest parseFromHeader(String rangeHeader) {
+        if (rangeHeader == null) {
+            return DEFAULT_SIMPLE_PAGE_REQUEST;
+        }
+        return convertFromHeader(HeaderPageable.parseRangeHeader(rangeHeader));
+    }
+
     /**
      * Converts a {@link HeaderPageable} object into a Spring Data {@link PageRequest}.
      * If the header is null, a default page request (page 1, size 10) is returned.
@@ -28,11 +35,18 @@ public class SpringSupport {
      * @param header The {@link HeaderPageable} object parsed from HTTP headers.
      * @return A {@link PageRequest} with pagination information and unsorted order.
      */
-    public PageRequest parseHeader(HeaderPageable header) {
+    public PageRequest convertFromHeader(HeaderPageable header) {
         if (header == null) {
             return DEFAULT_SIMPLE_PAGE_REQUEST;
         }
         return PageRequest.of(header.page(), header.size(), Sort.unsorted());
+    }
+
+    public PageRequest parseFromQueryParam(String sorts) {
+        if (sorts == null || sorts.isEmpty()) {
+            return DEFAULT_SIMPLE_PAGE_REQUEST;
+        }
+        return convertFromQueryParamSorts(QueryParamSort.parse(sorts));
     }
 
     /**
@@ -42,11 +56,24 @@ public class SpringSupport {
      * @param sorts The list of {@link QueryParamSort} objects parsed from query parameters.
      * @return A {@link PageRequest} with default pagination and specified sorting.
      */
-    public PageRequest parseSort(List<QueryParamSort> sorts) {
+    public PageRequest convertFromQueryParamSorts(List<QueryParamSort> sorts) {
         if (sorts == null || sorts.isEmpty()) {
             return DEFAULT_SIMPLE_PAGE_REQUEST;
         }
         return PageRequest.of(1, 10, toSort(sorts));
+    }
+
+    public PageRequest parseFromRest(String rangeHeader, String sorts) {
+        if (rangeHeader == null && sorts == null) {
+            return DEFAULT_SIMPLE_PAGE_REQUEST;
+        }
+        if (rangeHeader == null) {
+            return parseFromHeader(sorts);
+        }
+        if (sorts == null) {
+            return parseFromHeader(rangeHeader);
+        }
+        return convert(HeaderPageable.parseRangeHeader(rangeHeader), QueryParamSort.parse(sorts));
     }
 
     /**
@@ -57,15 +84,15 @@ public class SpringSupport {
      * @param sorts  The list of {@link QueryParamSort} for sorting.
      * @return A {@link PageRequest} containing both pagination and sorting information.
      */
-    public PageRequest parse(HeaderPageable header, List<QueryParamSort> sorts) {
+    public PageRequest convert(HeaderPageable header, List<QueryParamSort> sorts) {
         if (header == null && sorts == null) {
             return DEFAULT_SIMPLE_PAGE_REQUEST;
         }
         if (header == null) {
-            return parseSort(sorts);
+            return convertFromQueryParamSorts(sorts);
         }
         if (sorts == null) {
-            return parseHeader(header);
+            return convertFromHeader(header);
         }
         return PageRequest.of(header.page(), header.size(), toSort(sorts));
     }
