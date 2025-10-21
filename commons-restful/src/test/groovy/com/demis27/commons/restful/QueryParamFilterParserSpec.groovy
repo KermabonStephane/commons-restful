@@ -61,6 +61,7 @@ class QueryParamFilterParserSpec extends Specification {
                 null,
                 "",
                 " ",
+                " , ",
                 "firstname eq ",
                 "firstname eq John extra",
                 "firstname foo John",

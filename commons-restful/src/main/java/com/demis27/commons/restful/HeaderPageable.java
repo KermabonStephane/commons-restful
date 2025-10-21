@@ -17,9 +17,9 @@ import java.util.regex.Pattern;
  * // contentRangeHeader will be "Content-Range: items 0-9/100"
  *
  * @param elementName The name of the elements being paginated (e.g., "items", "users").
- * @param page The current page number (0-indexed). -1 if unknown.
- * @param size The number of elements per page. -1 if unknown.
- * @param total The total number of elements. -1 if unknown.
+ * @param page        The current page number (0-indexed). -1 if unknown.
+ * @param size        The number of elements per page. -1 if unknown.
+ * @param total       The total number of elements. -1 if unknown.
  */
 public record HeaderPageable(String elementName, int page, int size, long total) {
 
@@ -191,7 +191,12 @@ public record HeaderPageable(String elementName, int page, int size, long total)
      */
     public String toContentRangeHeader(boolean includeHeaderName) {
         int start = page * size;
-        long end = Math.min((long) (page + 1) * size - 1, total - 1);
+        long end;
+        if (total < 0) {
+            end = (long) (page + 1) * size - 1;
+        } else {
+            end = Math.min((long) (page + 1) * size - 1, total - 1);
+        }
         if (includeHeaderName) {
             return "%s: %s %d-%d/%d".formatted(CONTENT_RANGE_HEADER_NAME, elementName, start, end, total);
         } else {
@@ -276,18 +281,22 @@ public record HeaderPageable(String elementName, int page, int size, long total)
             this.elementName = elementName;
             return this;
         }
+
         public Builder page(int page) {
             this.page = page;
             return this;
         }
+
         public Builder size(int size) {
             this.size = size;
             return this;
         }
+
         public Builder total(long total) {
             this.total = total;
             return this;
         }
+
         public HeaderPageable build() {
             return new HeaderPageable(elementName, page, size, total);
         }

@@ -44,6 +44,7 @@ class HeaderPageableWriterSpec extends Specification {
         new HeaderPageable("elements", 0, 10, 100L) || "Content-Range: elements 0-9/100"
         new HeaderPageable("elements", 1, 10, 100L) || "Content-Range: elements 10-19/100"
         new HeaderPageable("elements", 1, 10, 15L)  || "Content-Range: elements 10-14/15"
+        new HeaderPageable("elements", 0, 2, -1L)  || "Content-Range: elements 0-1/-1"
     }
 
     def 'We write a Content-Range Header with or without header name'() {
