@@ -1,4 +1,4 @@
-package com.demis27.commons.restfull
+package com.demis27.commons.restful
 
 import spock.lang.Specification
 
@@ -16,7 +16,7 @@ class HeaderPageableParseRangeHeaderSpec extends Specification {
         where: 'We parse header with different values'
         header                   || page | size | elementName
         'Range: elements=0-9'    || 0    | 10   | 'elements'
-        'elements=0-9' || 0 | 10 | 'elements'
+        'elements=0-9'           || 0    | 10   | 'elements'
         'Range: elements=10-19'  || 1    | 10   | 'elements'
         'Range: records=20-29'   || 2    | 10   | 'records'
         'Range: records=100-199' || 1    | 100  | 'records'

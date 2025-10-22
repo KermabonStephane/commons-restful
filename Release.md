@@ -4,6 +4,9 @@
 
 ### New Features
 
+* [#10](https://github.com/KermabonStephane/commons-restful/issues/10) [Spring] Generate PageRequest with a range header and/or query param sort
+* [#18](https://github.com/KermabonStephane/commons-restful/issues/18) HeaderPageable: first page is 1
+
 ## Release 1.1.0
 
 ### New Features

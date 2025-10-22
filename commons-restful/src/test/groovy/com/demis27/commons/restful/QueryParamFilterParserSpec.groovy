@@ -1,4 +1,4 @@
-package com.demis27.commons.restfull
+package com.demis27.commons.restful
 
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -61,6 +61,7 @@ class QueryParamFilterParserSpec extends Specification {
                 null,
                 "",
                 " ",
+                " , ",
                 "firstname eq ",
                 "firstname eq John extra",
                 "firstname foo John",
