@@ -1,6 +1,10 @@
 # Releases
 
-## Release 1.2.0 - SNAPSHOT
+## Release 1.3.0-SNAPSHOT
+
+### New Features
+
+## Release 1.2.0
 
 ### New Features
 
