@@ -60,7 +60,7 @@ public record HeaderPageable(String elementName, int page, int size, long total)
     public record LinkHeader(String path, String link, String range) {
         /**
          * Returns a formatted string representation of the Link header.
-         * Example: `<%s>; rel="%s"; range="%s"`
+         * Example: `&gt;/api/v1/countries&lt;; rel="first"; range="0-9"`
          *
          * @return The formatted Link header string.
          */
