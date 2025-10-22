@@ -11,7 +11,7 @@ Sonar: https://sonarcloud.io/
 
 ### Features
 
-* **Pagination**: Handle pagination through HTTP headers (`Range`, `Content-Range`, and `Accept-Ranges`).
+* **Pagination**: Handle pagination through HTTP headers (`Range`, `Content-Range`, `Accept-Ranges`, and `Link`).
 * **Sorting**: Easily parse sorting criteria from request parameters.
 * **Filtering**: Parse filtering criteria from request parameters.
 
@@ -36,6 +36,17 @@ HeaderPageable pageable = HeaderPageable.parseRangeHeader(rangeHeader);
 HeaderPageable pageable = new HeaderPageable("items", 1, 10, 100);
 String contentRangeHeader = pageable.toContentRangeHeader();
 // contentRangeHeader will be "Content-Range: items 0-9/100"
+```
+
+**Generating `Link` headers for pagination:**
+
+The `HeaderPageable` can also generate `Link` headers for `first`, `prev`, `next`, and `last` pages, which is useful for API clients to navigate through paginated results.
+
+```java
+HeaderPageable pageable = new HeaderPageable("items", 1, 10, 100);
+String linkHeaders = pageable.toLinkHeaders("/api/items").toString();
+// linkHeaders will be:
+// "</api/items>; rel=\"first\"; range=\"0-9\", </api/items>; rel=\"previous\"; range=\"0-9\", </api/items>; rel=\"next\"; range=\"20-29\", </api/items>; rel=\"last\"; range=\"90-99\""
 ```
 
 #### Sorting

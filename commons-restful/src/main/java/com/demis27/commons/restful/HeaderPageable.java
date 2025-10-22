@@ -50,13 +50,36 @@ public record HeaderPageable(String elementName, int page, int size, long total)
      */
     public static final String ACCEPT_RANGES_HEADER_NAME = "Accept-Ranges";
 
-    public  record LinkHeader(String path, String link, String range) {
+    /**
+     * Represents a single Link header, typically used for pagination navigation (first, prev, next, last).
+     *
+     * @param path The URI path for the link.
+     * @param link The relation type of the link (e.g., "first", "prev", "next", "last").
+     * @param range The range string associated with the link (e.g., "0-9").
+     */
+    public record LinkHeader(String path, String link, String range) {
+        /**
+         * Returns a formatted string representation of the Link header.
+         * Example: `<%s>; rel="%s"; range="%s"`
+         *
+         * @return The formatted Link header string.
+         */
         public String toString() {
             return "<%s>; rel=\"%s\"; range=\"%s\"".formatted(path, link, range);
         }
     }
 
+    /**
+     * Represents a collection of Link headers.
+     *
+     * @param links A list of {@link LinkHeader} objects.
+     */
     public record LinkHeaders(List<LinkHeader> links) {
+        /**
+         * Returns a formatted string representation of all Link headers, joined by ", ".
+         *
+         * @return The formatted Link headers string.
+         */
         public String toString() {
             return links.stream().map(LinkHeader::toString).collect(Collectors.joining(", "));
         }
@@ -221,6 +244,13 @@ public record HeaderPageable(String elementName, int page, int size, long total)
         return "%d-%d".formatted(getStart(), getEnd());
     }
 
+    /**
+     * Converts this `HeaderPageable` object into a {@link LinkHeaders} object, generating links for
+     * first, previous, next, and last pages based on the current pagination state.
+     *
+     * @param api The base API path to be used for constructing the links.
+     * @return A {@link LinkHeaders} object containing the generated pagination links.
+     */
     public LinkHeaders toLinkHeaders(String api) {
         return new LinkHeaders(List.of(new LinkHeader(api, "first", this.firstPage().toRange()),
                 new LinkHeader(api, "previous", this.previousPage().toRange()),
