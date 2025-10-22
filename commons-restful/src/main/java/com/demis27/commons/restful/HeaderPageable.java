@@ -1,6 +1,8 @@
 package com.demis27.commons.restful;
 
+import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Represents pagination information extracted from or intended for HTTP headers like `Range`, `Content-Range`, and `Accept-Ranges`.
@@ -48,6 +50,17 @@ public record HeaderPageable(String elementName, int page, int size, long total)
      */
     public static final String ACCEPT_RANGES_HEADER_NAME = "Accept-Ranges";
 
+    public  record LinkHeader(String path, String link, String range) {
+        public String toString() {
+            return "<%s>; rel=\"%s\"; range=\"%s\"".formatted(path, link, range);
+        }
+    }
+
+    public record LinkHeaders(List<LinkHeader> links) {
+        public String toString() {
+            return links.stream().map(LinkHeader::toString).collect(Collectors.joining(", "));
+        }
+    }
 
     /**
      * Compact constructor to validate the arguments.
@@ -166,12 +179,10 @@ public record HeaderPageable(String elementName, int page, int size, long total)
      * @return The formatted `Range` header string (e.g., "Range: items=0-9").
      */
     public String toRangeHeader(boolean includeHeaderName) {
-        int start = page * size;
-        long end = Math.min((long) (page + 1) * size - 1, total - 1);
         if (includeHeaderName) {
-            return "%s: %s=%d-%d".formatted(RANGE_HEADER_NAME, elementName, start, end);
+            return "%s: %s=%d-%d".formatted(RANGE_HEADER_NAME, elementName, getStart(), getEnd());
         } else {
-            return "%s=%d-%d".formatted(elementName, start, end);
+            return "%s=%d-%d".formatted(elementName, getStart(), getEnd());
         }
     }
 
@@ -190,17 +201,10 @@ public record HeaderPageable(String elementName, int page, int size, long total)
      * @return The formatted `Content-Range` header string (e.g., "Content-Range: items 0-9/100").
      */
     public String toContentRangeHeader(boolean includeHeaderName) {
-        int start = page * size;
-        long end;
-        if (total < 0) {
-            end = (long) (page + 1) * size - 1;
-        } else {
-            end = Math.min((long) (page + 1) * size - 1, total - 1);
-        }
         if (includeHeaderName) {
-            return "%s: %s %d-%d/%d".formatted(CONTENT_RANGE_HEADER_NAME, elementName, start, end, total);
+            return "%s: %s %d-%d/%d".formatted(CONTENT_RANGE_HEADER_NAME, elementName, getStart(), getEnd(), total);
         } else {
-            return "%s %d-%d/%d".formatted(elementName, start, end, total);
+            return "%s %d-%d/%d".formatted(elementName, getStart(), getEnd(), total);
         }
     }
 
@@ -211,6 +215,17 @@ public record HeaderPageable(String elementName, int page, int size, long total)
      */
     public String toAcceptRangesHeader() {
         return "%s: %s".formatted(ACCEPT_RANGES_HEADER_NAME, elementName);
+    }
+
+    private String toRange() {
+        return "%d-%d".formatted(getStart(), getEnd());
+    }
+
+    public LinkHeaders toLinkHeaders(String api) {
+        return new LinkHeaders(List.of(new LinkHeader(api, "first", this.firstPage().toRange()),
+                new LinkHeader(api, "previous", this.previousPage().toRange()),
+                new LinkHeader(api, "next", this.nextPage().toRange()),
+                new LinkHeader(api, "last", this.lastPage().toRange())));
     }
 
     /**
@@ -224,28 +239,26 @@ public record HeaderPageable(String elementName, int page, int size, long total)
     }
 
     /**
-     * Returns a new `HeaderPageable` for the next page.
+     * Returns a new `HeaderPageable` for the next page or this if the current page is the last one.
      *
-     * @return A new `HeaderPageable` for the next page.
-     * @throws IndexOutOfBoundsException if this is the last page.
+     * @return A new `HeaderPageable` for the next page or this if the current page is the last one.
      */
     public HeaderPageable nextPage() {
         long lastPage = (total - 1) / size;
         if (page >= lastPage) {
-            throw new IndexOutOfBoundsException("Cannot move to next page from the last page");
+            return this;
         }
         return toBuilder(this).page(page + 1).build();
     }
 
     /**
-     * Returns a new `HeaderPageable` for the previous page.
+     * Returns a new `HeaderPageable` for the previous page or this if we currently on the first page.
      *
-     * @return A new `HeaderPageable` for the previous page.
-     * @throws IndexOutOfBoundsException if this is the first page.
+     * @return A new `HeaderPageable` for the previous page or this if we currently on the first page.
      */
     public HeaderPageable previousPage() {
         if (page == 0) {
-            throw new IndexOutOfBoundsException("Cannot move to previous page from the first page");
+            return this;
         }
         return toBuilder(this).page(page - 1).build();
     }
@@ -256,7 +269,7 @@ public record HeaderPageable(String elementName, int page, int size, long total)
      * @return A new `HeaderPageable` for the first page.
      */
     public HeaderPageable firstPage() {
-        return new HeaderPageable(elementName, 1, size, total);
+        return new HeaderPageable(elementName, 0, size, total);
     }
 
     /**
@@ -268,6 +281,17 @@ public record HeaderPageable(String elementName, int page, int size, long total)
         return new HeaderPageable(elementName, (int) ((total - 1) / size), size, total);
     }
 
+    private long getStart() {
+        return (long) page * size;
+    }
+
+    private long getEnd() {
+        if (total < 0) {
+            return (long) (page + 1) * size - 1;
+        } else {
+            return Math.min((long) (page + 1) * size - 1, total - 1);
+        }
+    }
     /**
      * A builder for creating `HeaderPageable` instances.
      */

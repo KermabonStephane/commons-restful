@@ -27,18 +27,6 @@ class HeaderPageableNavSpec extends Specification {
         8           | 9
     }
 
-    def "Test nextPage navigation on last page throws exception"() {
-        given:
-        def headerPageable = new HeaderPageable("elements", 9, 10, 100L)
-
-        when: 'We get the next page'
-        headerPageable.nextPage()
-
-        then:
-        def e = thrown(IndexOutOfBoundsException)
-        e.message == "Cannot move to next page from the last page"
-    }
-
     @Unroll
     def "Test previousPage navigation from page #currentPage"() {
         given:
@@ -62,19 +50,6 @@ class HeaderPageableNavSpec extends Specification {
         5           | 4
     }
 
-    def "Test previousPage navigation on first page throws exception"() {
-        given:
-        def headerPageable = new HeaderPageable("elements", 0, 10, 100L)
-
-        when: 'We get the previous page'
-        headerPageable.previousPage()
-
-        then:
-        def e = thrown(IndexOutOfBoundsException)
-        e.message == "Cannot move to previous page from the first page"
-    }
-
-
     @Unroll
     def "Test firstPage navigation from page #currentPage"() {
         given:
@@ -84,7 +59,7 @@ class HeaderPageableNavSpec extends Specification {
         def firstPage = headerPageable.firstPage()
 
         then: 'The first page is correctly'
-        firstPage.page == 1
+        firstPage.page == 0
         and: 'Others parameters still the same'
         firstPage.size == 10
         firstPage.total == 100L
