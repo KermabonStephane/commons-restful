@@ -15,9 +15,12 @@ class HeaderPageableParseContentRangeHeaderSpec extends Specification {
         headerPageable.elementName() == elementName
 
         where: 'We parse header with different values'
-        header                             || page | size | total | elementName
-        'Content-Range: elements 0-9/100'  || 1    | 10   | 100   | 'elements'
-        'Content-Range: records 10-19/200' || 2    | 10   | 200   | 'records'
+        header                                 || page | size | total | elementName
+        'Content-Range: elements 0-9/100'      || 1    | 10   | 100   | 'elements'
+        'Content-Range: records 10-19/200'     || 2    | 10   | 200   | 'records'
+        'Content-Range: firstNames 10-19/200'  || 2    | 10   | 200   | 'firstNames'
+        'Content-Range: first_names 10-19/200' || 2    | 10   | 200   | 'first_names'
+        'Content-Range: first-names 10-19/200' || 2    | 10   | 200   | 'first-names'
     }
 
     def 'We parse a null or empty Content-Range Header'() {

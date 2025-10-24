@@ -21,6 +21,8 @@ class HeaderPageableParseRangeHeaderSpec extends Specification {
         'Range: records=20-29'   || 2    | 10   | 'records'
         'Range: records=100-199' || 1    | 100  | 'records'
         'Range: firstNames=0-99' || 0    | 100  | 'firstNames'
+        'Range: first_names=0-99' || 0    | 100  | 'first_names'
+        'Range: first-names=0-99' || 0    | 100  | 'first-names'
     }
 
     def 'We parse a null or empty Range Header'() {

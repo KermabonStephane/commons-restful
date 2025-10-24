@@ -16,6 +16,8 @@ class HeaderPageableParseAcceptRangeHeaderSpec extends Specification {
         'Accept-Ranges: elements'   || 'elements'
         'Accept-Ranges: records'    || 'records'
         'Accept-Ranges: firstNames' || 'firstNames'
+        'Accept-Ranges: first_names' || 'first_names'
+        'Accept-Ranges: first-names' || 'first-names'
     }
 
     def 'We parse a null or empty Accept-Range Header'() {

@@ -28,15 +28,15 @@ public record HeaderPageable(String elementName, int page, int size, long total)
     /**
      * Regex pattern for a `Range` header. E.g., `Range: items=0-9`.
      */
-    public static final Pattern RANGE_HEADER_PATTERN = Pattern.compile("(Range: )?[a-zA-Z]+=(\\d+)-(\\d+)");
+    public static final Pattern RANGE_HEADER_PATTERN = Pattern.compile("(Range: )?[a-zA-Z-_]+=(\\d+)-(\\d+)");
     /**
      * Regex pattern for a `Content-Range` header. E.g., `Content-Range: items 0-9/100`.
      */
-    public static final Pattern CONTENT_RANGE_HEADER_PATTERN = Pattern.compile("(Content-Range: )?[a-zA-Z]+ (\\d+)-(\\d+)/(\\d+)");
+    public static final Pattern CONTENT_RANGE_HEADER_PATTERN = Pattern.compile("(Content-Range: )?[a-zA-Z-_]+ (\\d+)-(\\d+)/(\\d+)");
     /**
      * Regex pattern for an `Accept-Ranges` header. E.g., `Accept-Ranges: items`.
      */
-    public static final Pattern ACCEPT_RANGES_HEADER_PATTERN = Pattern.compile("(Accept-Ranges: )?[a-zA-Z]+");
+    public static final Pattern ACCEPT_RANGES_HEADER_PATTERN = Pattern.compile("(Accept-Ranges: )?[a-zA-Z-_]+");
     /**
      * The name of the `Range` HTTP header.
      */
