@@ -11,13 +11,12 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class SpringWebSupport<T> {
+public class ResourceController<T> {
 
     private static final PageRequest DEFAULT_SIMPLE_PAGE_REQUEST = PageRequest.of(0, 10);
 
     public ResponseEntity<List<T>> getAll(APIResourcesRequest resourcesRequest, Function<APIResourcesRequest, List<T>> getAllFunction, Supplier<Long> countFunction) {
-        PageRequest pageable = parseFromRest(resourcesRequest.rangeHeaderValue(), resourcesRequest.sortQueryParam());
-        HeaderPageable resultRange = extractHeaderPageable(pageable, "countries");
+        HeaderPageable resultRange = HeaderPageable.parseRangeHeader(resourcesRequest.rangeHeaderValue());
         resultRange = HeaderPageable.toBuilder(resultRange).total(countFunction.get()).build();
         return ResponseEntity
                 .ok()

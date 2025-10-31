@@ -1,9 +1,7 @@
 package com.demis27.commons.restful.spring.infrastructure.jpa;
 
 import com.demis27.commons.restful.QueryParamFilter;
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.Path;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;
