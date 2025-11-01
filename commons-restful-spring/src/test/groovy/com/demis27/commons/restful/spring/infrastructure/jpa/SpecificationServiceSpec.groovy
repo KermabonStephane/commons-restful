@@ -1,6 +1,6 @@
-package com.demis27.commons.restful.spring.filtering
+package com.demis27.commons.restful.spring.infrastructure.jpa
 
-import com.demis27.commons.restful.spring.infrastructure.jpa.SpecificationService
+
 import jakarta.persistence.criteria.*
 import spock.lang.Specification
 
