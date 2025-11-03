@@ -12,12 +12,12 @@ To use these libraries in your Maven project, add the following dependencies to 
 <dependency>
     <groupId>com.demis27</groupId>
     <artifactId>commons-restful</artifactId>
-    <version>1.3.0</version>
+    <version>1.4.0-SNAPSHOT</version>
 </dependency>
 <dependency>
     <groupId>com.demis27</groupId>
     <artifactId>commons-restful-spring</artifactId>
-    <version>1.3.0</version>
+    <version>1.4.0-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -26,8 +26,8 @@ To use these libraries in your Maven project, add the following dependencies to 
 To use these libraries in your Gradle project, add the following dependencies to your `build.gradle` file:
 
 ```groovy
-implementation 'com.demis27:commons-restful:1.3.0'
-implementation 'com.demis27:commons-restful-spring:1.3.0'
+implementation 'com.demis27:commons-restful:1.4.0-SNAPSHOT'
+implementation 'com.demis27:commons-restful-spring:1.4.0-SNAPSHOT'
 ```
 
 ## Documentation
