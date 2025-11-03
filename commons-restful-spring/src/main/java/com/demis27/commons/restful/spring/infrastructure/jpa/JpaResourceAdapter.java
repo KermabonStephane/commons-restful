@@ -41,7 +41,7 @@ public abstract class JpaResourceAdapter<D, E, K> implements ResourcePort<D> {
     public Long countResources(APIResourcesRequest request) {
         Optional<Specification<E>> optionalSpecification = specificationService.fromFilters(request.filterQueryParam());
 
-        return optionalSpecification.map(eSpecification -> repository.count(eSpecification))
-                .orElseGet(() -> repository.count());
+        return optionalSpecification.map(repository::count)
+                .orElseGet(repository::count);
     }
 }
