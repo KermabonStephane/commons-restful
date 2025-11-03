@@ -1,4 +1,4 @@
-package com.demis27.commons.restful.spring
+package com.demis27.commons.restful.spring.service
 
 import com.demis27.commons.restful.HeaderPageable
 import com.demis27.commons.restful.QueryParamSort
@@ -6,9 +6,9 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import spock.lang.Specification
 
-class SpringSupportSpec extends Specification {
+class RestFulSpringSupportSpec extends Specification {
 
-    def springSupport = new SpringSupport()
+    def springSupport = new RestFulSpringSupport()
 
     def "should parse header to page request"() {
         when:

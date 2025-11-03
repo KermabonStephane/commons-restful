@@ -4,6 +4,8 @@ import groovy.transform.builder.Builder;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * Represents a filter criterion for a query.
@@ -54,7 +56,21 @@ public record QueryParamFilter(String property, FilterOperator operator, List<St
         /**
          * Represents a "like" comparison (e.g., `property like values`).
          */
-        LIKE
+        LIKE;
+
+        public static FilterOperator parse(String operatorString) {
+            return switch (operatorString) {
+                case "eq" -> EQUALS;
+                case "gt" -> GREATER;
+                case "gte" -> GREATER_OR_EQUALS;
+                case "lt" -> LESS;
+                case "lte" -> LESS_OR_EQUALS;
+                case "ne" -> NOT_EQUALS;
+                case "in" -> IN;
+                case "like" -> LIKE;
+                default -> throw new IllegalArgumentException("Unsupported operator: " + operatorString);
+            };
+        }
     }
 
     /**
@@ -92,15 +108,19 @@ public record QueryParamFilter(String property, FilterOperator operator, List<St
         }
 
         String[] parts = filterString.split(" ");
-        if (parts.length != 3) {
+        if (parts.length < 3) {
             throw new IllegalArgumentException("Invalid filter format for: '" + filterString + "'. Expected format is property operator values");
         }
 
         String property = parts[0];
         String operatorString = parts[1];
-        String value = parts[2];
+        List<String> values = Stream.of(Arrays.copyOfRange(parts, 2, parts.length)).toList();
 
-        if (property.isBlank() || operatorString.isBlank() || value.isBlank()) {
+        if (!operatorString.equals("in") && values.size() > 1) {
+            throw new IllegalArgumentException("Invalid filter format for: '" + filterString + "'. Expected format is property operator values");
+        }
+
+        if (property.isBlank() || operatorString.isBlank() || values.isEmpty()) {
             throw new IllegalArgumentException("Property, operator, and values cannot be blank in filter: '" + filterString + "'");
         }
 
@@ -116,6 +136,6 @@ public record QueryParamFilter(String property, FilterOperator operator, List<St
             default -> throw new IllegalArgumentException("Unknown operator: " + operatorString);
         };
 
-        return new QueryParamFilter(property, operator, List.of(value));
+        return new QueryParamFilter(property, operator, values);
     }
 }

@@ -1,4 +1,4 @@
-package com.demis27.commons.restful.spring;
+package com.demis27.commons.restful.spring.service;
 
 import com.demis27.commons.restful.HeaderPageable;
 import com.demis27.commons.restful.QueryParamSort;
@@ -17,7 +17,7 @@ import java.util.stream.StreamSupport;
  * with Spring Data repositories.
  */
 @Component
-public class SpringSupport {
+public class RestFulSpringSupport {
 
     private static final PageRequest DEFAULT_SIMPLE_PAGE_REQUEST = PageRequest.of(0, 10);
 
