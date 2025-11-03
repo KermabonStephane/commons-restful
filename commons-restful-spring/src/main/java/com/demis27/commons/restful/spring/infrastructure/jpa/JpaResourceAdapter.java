@@ -13,10 +13,15 @@ import java.util.Optional;
 public abstract class JpaResourceAdapter<D, E, K> implements ResourcePort<D> {
 
     private final SpecificationService<E> specificationService = new SpecificationService<>();
-    @Autowired
-    protected JpaResourceRepository<E, K> repository;
-    @Autowired
-    protected EntityMapper<E, D> mapper;
+
+    protected final JpaResourceRepository<E, K> repository;
+
+    protected final EntityMapper<E, D> mapper;
+
+    protected JpaResourceAdapter(JpaResourceRepository<E, K> repository, EntityMapper<E, D> mapper) {
+        this.repository = repository;
+        this.mapper = mapper;
+    }
 
     @Override
     public List<D> getAllResources(APIResourcesRequest request) {

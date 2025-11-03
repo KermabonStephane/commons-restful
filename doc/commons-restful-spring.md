@@ -115,11 +115,11 @@ In our example, `RegionService` is responsible for all business operations relat
 // com.demis27.countries.service.RegionService
 
 @Service
-@RequiredArgsConstructor
-public class RegionService {
+public class RegionService extends ResourceService<Region> {
 
-    private final RegionEntityRepository repository; // Injected Port
-    private final RegionEntityMapper mapper;
+    protected RegionService(ResourcePort<Region> support) {
+        super(support);
+    }
     
     // ... other business methods
 }
@@ -147,16 +147,16 @@ public interface RegionEntityRepository extends JpaRepository<RegionEntity, Inte
 
 1.  **Driving Adapters:** These are the components that call the driving ports. The `RegionController` is a driving adapter. It adapts incoming HTTP requests into method calls on the `RegionService`.
 
-    ```java
-    // com.demis27.countries.infrastructure.web.controller.RegionController
+```java
+// com.demis27.countries.infrastructure.web.controller.RegionController
 
-    @RestController
+@RestController
+// ...
+public class RegionController extends ResourceController<RegionDto> {
+    private final RegionService service; // The driving port
     // ...
-    public class RegionController extends ResourceController<RegionDto> {
-        private final RegionService service; // The driving port
-        // ...
-    }
-    ```
+}
+```
 
 2.  **Driven Adapters:** These are the components that implement the driven port interfaces. In our case, the implementation of the `RegionEntityRepository` is provided automatically by **Spring Data JPA**. It adapts the interface's methods into actual SQL queries against a PostgreSQL database. This adapter lives entirely in the outermost layer (Frameworks & Drivers), and we don't even have to write the code ourselves.
 

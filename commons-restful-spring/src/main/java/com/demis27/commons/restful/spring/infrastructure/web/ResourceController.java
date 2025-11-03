@@ -6,12 +6,13 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.ToLongFunction;
 
 public class ResourceController<T> {
 
-    public ResponseEntity<List<T>> getAll(APIResourcesRequest resourcesRequest, Function<APIResourcesRequest, List<T>> getAllFunction, Function<APIResourcesRequest, Long> countFunction) {
+    public ResponseEntity<List<T>> getAll(APIResourcesRequest resourcesRequest, Function<APIResourcesRequest, List<T>> getAllFunction, ToLongFunction<APIResourcesRequest> countFunction) {
         HeaderPageable resultRange = HeaderPageable.parseRangeHeader(resourcesRequest.rangeHeaderValue());
-        resultRange = HeaderPageable.toBuilder(resultRange).total(countFunction.apply(resourcesRequest)).build();
+        resultRange = HeaderPageable.toBuilder(resultRange).total(countFunction.applyAsLong(resourcesRequest)).build();
         return ResponseEntity
                 .ok()
                 .header(HeaderPageable.CONTENT_RANGE_HEADER_NAME, resultRange.toContentRangeHeader(false))

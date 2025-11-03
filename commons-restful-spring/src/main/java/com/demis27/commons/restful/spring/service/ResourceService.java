@@ -1,14 +1,16 @@
 package com.demis27.commons.restful.spring.service;
 
 import com.demis27.commons.restful.spring.model.APIResourcesRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 public abstract class ResourceService<D> {
 
-    @Autowired
-    protected ResourcePort<D> support;
+    protected final ResourcePort<D> support;
+
+    protected ResourceService(ResourcePort<D> support) {
+        this.support = support;
+    }
 
     public List<D> getAllResources(APIResourcesRequest request) {
         return support.getAllResources(request);
