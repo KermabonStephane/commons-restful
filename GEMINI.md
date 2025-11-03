@@ -42,6 +42,7 @@ Please follow the existing code style.
 
 #### Adding a new dependency
 
+
 1.  Find the dependency on Maven Central.
 2.  Add the dependency to the `pom.xml` file.
 3.  Reload the Maven project.
