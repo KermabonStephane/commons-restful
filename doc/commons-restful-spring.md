@@ -81,10 +81,9 @@ public class RegionController extends ResourceController<RegionDto> implements R
 
 1.  **Inheritance:** `RegionController` extends `ResourceController<RegionDto>`, immediately gaining access to the standardized `getAll` method.
 
-
 2.  **Dependency Injection:** The controller depends on `RegionService` (the Use Case layer) to fetch business data. This adheres to the Clean Architecture dependency rule, as the outer layer (Infrastructure) depends on the inner layer (Service).
 
-3.  **`getAllResources` Method:**
+3.  **`getAllRegions` Method:**
     *
 It captures the raw HTTP request parameters (`Range`, `sort`, `filters`).
 *   It instantiates `APIResourcesRequest`, which parses and validates these parameters. This encapsulates all the information needed to query the collection.
@@ -95,11 +94,11 @@ It captures the raw HTTP request parameters (`Range`, `sort`, `filters`).
     The magic of the library is in this call. We provide three things:
     *   `request`: The `APIResourcesRequest` object containing the parsed request details.
     *   A **data fetching lambda**: `resourceRequest -> service.getAll
-Regions(resourceRequest).stream().map(mapper::toDto).toList()`. This is the core of the operation. The `ResourceController` invokes this lambda, passing its own `Pageable` object. The lambda, in turn:
+Resources(resourceRequest).stream().map(mapper::toDto).toList()`. This is the core of the operation. The `ResourceController` invokes this lambda, passing its own `Pageable` object. The lambda, in turn:
         *   Calls the `RegionService` to get the domain objects
             (`Region`).
         *   Uses a `RegionDtoMapper` to convert the domain objects into DTOs (`RegionDto`) for the presentation layer.
-    *   A **counting function**: `service::countRegions`. The `ResourceController` uses this function to get the total number of available resources,
+    *   A **counting function**: `service::countResources`. The `ResourceController` uses this function to get the total number of available resources,
         which is necessary to build the `Content-Range` header.
 
 ## 4. Deep Dive: Services, Ports, and Adapters
