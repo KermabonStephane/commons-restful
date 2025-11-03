@@ -1,8 +1,12 @@
 # Releases
 
-## Release 1.3.0-SNAPSHOT
+## Release 1.3.0
 
 ### New Features
+
+* [#22](https://github.com/KermabonStephane/commons-restful/issues/22) [Spring] Add a Spring Data Specification generator for QueryParamFilter
+* [#19](https://github.com/KermabonStephane/commons-restful/issues/19) [Commons]: Add generation of link header
+* [#15](https://github.com/KermabonStephane/commons-restful/issues/15) [Spring] Initiate common-restful-spring module
 
 ## Release 1.2.0
 
