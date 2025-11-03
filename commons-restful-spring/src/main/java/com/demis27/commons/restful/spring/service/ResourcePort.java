@@ -7,4 +7,6 @@ import java.util.List;
 public interface ResourcePort<D> {
 
     List<D> getAllResources(APIResourcesRequest request);
+
+    Long countResources(APIResourcesRequest request);
 }

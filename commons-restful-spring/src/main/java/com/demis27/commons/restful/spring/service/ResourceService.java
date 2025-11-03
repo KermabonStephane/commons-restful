@@ -13,4 +13,8 @@ public abstract class ResourceService<D> {
     public List<D> getAllResources(APIResourcesRequest request) {
         return support.getAllResources(request);
     }
+
+    public Long countResources(APIResourcesRequest request) {
+        return support.countResources(request);
+    }
 }

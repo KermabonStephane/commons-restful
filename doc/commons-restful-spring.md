@@ -69,8 +69,8 @@ public class RegionController extends ResourceController<RegionDto> implements R
         // 2. Delegate to the base controller's `getAll` method
         return getAll(
                 request,
-                resourceRequest -> service.getAllRegions(resource Request).stream().map(mapper::toDto).toList(),
-                service::countRegions);
+                resourceRequest -> service.getAllResources(resourceRequest).stream().map(mapper::toDto).toList(),
+                service::countResources);
     }
     // ... other methods
 }
@@ -84,7 +84,7 @@ public class RegionController extends ResourceController<RegionDto> implements R
 
 2.  **Dependency Injection:** The controller depends on `RegionService` (the Use Case layer) to fetch business data. This adheres to the Clean Architecture dependency rule, as the outer layer (Infrastructure) depends on the inner layer (Service).
 
-3.  **`getAllRegions` Method:**
+3.  **`getAllResources` Method:**
     *
 It captures the raw HTTP request parameters (`Range`, `sort`, `filters`).
 *   It instantiates `APIResourcesRequest`, which parses and validates these parameters. This encapsulates all the information needed to query the collection.
@@ -121,14 +121,6 @@ public class RegionService {
 
     private final RegionEntityRepository repository; // Injected Port
     private final RegionEntityMapper mapper;
-
-    public List<Region> getAllRegions(Pageable pageable) {
-        return repository.findAll(pageable).stream().map(mapper::toDomain).toList();
-    }
-
-    public Long countRegions() {
-        return repository.count();
-    }
     
     // ... other business methods
 }

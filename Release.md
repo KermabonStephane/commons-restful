@@ -4,6 +4,7 @@
 
 ### New Features
 
+* [#25](https://github.com/KermabonStephane/commons-restful/issues/25) [Spring] Add the count with pageable and filters
 
 ## Release 1.3.0
 
