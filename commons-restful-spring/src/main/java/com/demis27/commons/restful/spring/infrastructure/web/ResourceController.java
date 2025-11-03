@@ -7,13 +7,12 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.LongSupplier;
-import java.util.function.Supplier;
 
 public class ResourceController<T> {
 
     public ResponseEntity<List<T>> getAll(APIResourcesRequest resourcesRequest, Function<APIResourcesRequest, List<T>> getAllFunction, LongSupplier countFunction) {
         HeaderPageable resultRange = HeaderPageable.parseRangeHeader(resourcesRequest.rangeHeaderValue());
-        resultRange = HeaderPageable.toBuilder(resultRange).total(countFunction.get()).build();
+        resultRange = HeaderPageable.toBuilder(resultRange).total(countFunction.getAsLong()).build();
         return ResponseEntity
                 .ok()
                 .header(HeaderPageable.CONTENT_RANGE_HEADER_NAME, resultRange.toContentRangeHeader(false))
