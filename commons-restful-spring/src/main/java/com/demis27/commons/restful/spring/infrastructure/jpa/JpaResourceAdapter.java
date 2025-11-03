@@ -3,7 +3,6 @@ package com.demis27.commons.restful.spring.infrastructure.jpa;
 import com.demis27.commons.restful.spring.model.APIResourcesRequest;
 import com.demis27.commons.restful.spring.service.ResourcePort;
 import com.demis27.commons.restful.spring.service.RestFulSpringSupport;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 
