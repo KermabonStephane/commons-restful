@@ -27,6 +27,7 @@
         <sonar.coverage.jacoco.xmlReportPaths>
             ./commons-jacoco-aggregate/target/site/jacoco-aggregate/jacoco.xml
         </sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.organization>kermabonstephane</sonar.organization>
     </properties>
 
     <dependencyManagement>
