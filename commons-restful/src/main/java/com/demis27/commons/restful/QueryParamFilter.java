@@ -5,7 +5,6 @@ import groovy.transform.builder.Builder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 /**
  * Represents a filter criterion for a query.
