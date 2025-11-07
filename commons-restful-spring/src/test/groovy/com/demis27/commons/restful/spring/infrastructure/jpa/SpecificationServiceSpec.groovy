@@ -124,6 +124,22 @@ class SpecificationServiceSpec extends Specification {
         "  "   | "blank"
     }
 
+    def "should return an empty specification when filters list are #filterDescription"() {
+        given: "A filter string"
+        // filter is provided by the where block
+
+        when: "The specification is created"
+        def spec = service.fromFilters(filter)
+
+        then: "An empty optional is returned"
+        spec.isEmpty()
+
+        where:
+        filter    | filterDescription
+        null      | "null"
+        List.of() | "empty"
+    }
+
     // Dummy entity for generic type
     private static class MyEntity {}
 }
