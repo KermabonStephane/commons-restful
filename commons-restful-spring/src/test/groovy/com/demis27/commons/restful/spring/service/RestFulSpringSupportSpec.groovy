@@ -40,22 +40,6 @@ class RestFulSpringSupportSpec extends Specification {
         [new QueryParamSort("property1", QueryParamSort.SortOrder.ASC), new QueryParamSort("property2", QueryParamSort.SortOrder.DESC)] || PageRequest.of(0, 10, Sort.by(Sort.Order.asc("property1"), Sort.Order.desc("property2")))
     }
 
-    def "should return the right page request"() {
-        when:
-        def result = springSupport.convert(null, null)
-
-        then:
-        result == PageRequest.of(0, 10)
-
-        where:
-        range                                       | sort                                                            || exptectedPageRequest
-        null                                        | null                                                            || PageRequest.of(0, 10)
-        null                                        | []                                                              || PageRequest.of(0, 10)
-        new HeaderPageable("elements", 0, 20, 100L) | null                                                            || PageRequest.of(0, 20, Sort.unsorted())
-        null                                        | [new QueryParamSort("property1", QueryParamSort.SortOrder.ASC)] || PageRequest.of(0, 10, Sort.by(Sort.Order.asc("property1")))
-        new HeaderPageable("elements", 1, 20, 100L) | [new QueryParamSort("property1", QueryParamSort.SortOrder.ASC)] || PageRequest.of(1, 20, Sort.by(Sort.Order.asc("property1")))
-    }
-
     def "should extract header pageable from page request"() {
         given:
         def pageRequest = PageRequest.of(1, 20)
@@ -106,7 +90,8 @@ class RestFulSpringSupportSpec extends Specification {
 
         where:
         sortString                 || expectedPageRequest
-        "property1,property2:desc" || PageRequest.of(0, 10, Sort.by(Sort.Order.asc("property1"), Sort.Order.desc("property2")))
+        "property1,property2:desc" || PageRequest.of(0, 10, Sort.by(Sort.Order.asc("property1"), Sort.Order.desc(
+                "property2")))
         null                       || PageRequest.of(0, 10)
         ""                         || PageRequest.of(0, 10)
     }
@@ -122,8 +107,10 @@ class RestFulSpringSupportSpec extends Specification {
         rangeHeader   | sorts       || expectedPageRequest
         "items=10-19" | "name:desc" || PageRequest.of(1, 10, Sort.by(Sort.Order.desc("name")))
         "items=0-4"   | null        || PageRequest.of(0, 5, Sort.unsorted())
+        "items=0-4"   | ""          || PageRequest.of(0, 5, Sort.unsorted())
         null          | "name:desc" || PageRequest.of(0, 10, Sort.by(Sort.Order.desc("name")))
         null          | null        || PageRequest.of(0, 10)
+        null          | ""          || PageRequest.of(0, 10)
 
     }
 
@@ -138,8 +125,10 @@ class RestFulSpringSupportSpec extends Specification {
         header                                      | sorts                                                           || expectedPageRequest
         new HeaderPageable("elements", 1, 20, 100L) | [new QueryParamSort("property1", QueryParamSort.SortOrder.ASC)] || PageRequest.of(1, 20, Sort.by(Sort.Order.asc("property1")))
         null                                        | [new QueryParamSort("property1", QueryParamSort.SortOrder.ASC)] || PageRequest.of(0, 10, Sort.by(Sort.Order.asc("property1")))
-        new HeaderPageable("elements", 1, 20, 100L) | null                                                            || PageRequest.of(1, 20)
+        new HeaderPageable("elements", 1, 20, 100L) | null                                                            || PageRequest.of(1, 20, Sort.unsorted())
+        new HeaderPageable("elements", 1, 20, 100L) | []                                                              || PageRequest.of(1, 20, Sort.unsorted())
         null                                        | null                                                            || PageRequest.of(0, 10)
+        null                                        | []                                                              || PageRequest.of(0, 10)
     }
 
 }

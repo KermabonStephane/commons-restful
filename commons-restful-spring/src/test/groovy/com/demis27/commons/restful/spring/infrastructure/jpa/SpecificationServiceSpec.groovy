@@ -107,6 +107,23 @@ class SpecificationServiceSpec extends Specification {
         1 * criteriaBuilder.equal(cityPath, "London")
     }
 
+    def "should return an empty specification when filters are #filterDescription"() {
+        given: "A filter string"
+        // filter is provided by the where block
+
+        when: "The specification is created"
+        def spec = service.fromFilters(filter)
+
+        then: "An empty optional is returned"
+        spec.isEmpty()
+
+        where:
+        filter | filterDescription
+        null   | "null"
+        ""     | "empty"
+        "  "   | "blank"
+    }
+
     // Dummy entity for generic type
     private static class MyEntity {}
 }
