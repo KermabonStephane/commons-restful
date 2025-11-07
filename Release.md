@@ -6,6 +6,10 @@
 
 * [#25](https://github.com/KermabonStephane/commons-restful/issues/25) [Spring] Add the count with pageable and filters
 
+### Fixes
+
+* [#26](https://github.com/KermabonStephane/commons-restful/issues/26) Manage no range on the getAll
+
 ## Release 1.3.0
 
 ### New Features

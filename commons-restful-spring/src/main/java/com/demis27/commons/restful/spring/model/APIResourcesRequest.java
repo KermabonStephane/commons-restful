@@ -1,5 +1,7 @@
 package com.demis27.commons.restful.spring.model;
 
+import jakarta.validation.constraints.NotBlank;
+
 /**
  * All information needed to get the list of a specific API resource.
  *
@@ -12,8 +14,8 @@ package com.demis27.commons.restful.spring.model;
  *                         'code eq 4'.
  */
 public record APIResourcesRequest(
-        String resourceName,
-        String baseURI,
+        @NotBlank String resourceName,
+        @NotBlank String baseURI,
         String rangeHeaderValue,
         String sortQueryParam,
         String filterQueryParam) {
