@@ -25,7 +25,7 @@ public abstract class JpaResourceAdapter<D, E, K> implements ResourcePort<D> {
     @Override
     public List<D> getAllResources(APIResourcesRequest request) {
         PageRequest pageRequest = new RestFulSpringSupport().parseFromRest(request.rangeHeaderValue(), request.sortQueryParam());
-        Optional<Specification<E>> optionalSpecification = specificationService.fromFilters(request.filterQueryParam());
+        Optional<Specification<E>> optionalSpecification = specificationService.fromFiltersString(request.filterQueryParam());
 
         return optionalSpecification.map(eSpecification -> repository.findAll(eSpecification, pageRequest)
                         .stream()
@@ -39,7 +39,7 @@ public abstract class JpaResourceAdapter<D, E, K> implements ResourcePort<D> {
 
     @Override
     public Long countResources(APIResourcesRequest request) {
-        Optional<Specification<E>> optionalSpecification = specificationService.fromFilters(request.filterQueryParam());
+        Optional<Specification<E>> optionalSpecification = specificationService.fromFiltersString(request.filterQueryParam());
 
         return optionalSpecification.map(repository::count)
                 .orElseGet(repository::count);

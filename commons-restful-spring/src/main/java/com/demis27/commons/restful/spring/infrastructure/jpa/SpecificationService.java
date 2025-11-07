@@ -23,7 +23,7 @@ public class SpecificationService<T> {
      * @param filters The filter string to convert.
      * @return A {@link Specification} that can be used to query the database.
      */
-    public Optional<Specification<T>> fromFilters(String filters) {
+    public Optional<Specification<T>> fromFiltersString(String filters) {
         if (filters == null || filters.trim().isEmpty()) {
             return Optional.empty();
         }
@@ -33,6 +33,10 @@ public class SpecificationService<T> {
     }
 
     public Optional<Specification<T>> fromFilters(List<QueryParamFilter> filters) {
+        if (filters == null || filters.isEmpty()) {
+            return Optional.empty();
+        }
+
         List<Specification<T>> specifications = new ArrayList<>();
         filters.forEach(filter -> specifications.add(parseFilter(filter)));
 

@@ -28,7 +28,7 @@ class SpecificationServiceSpec extends Specification {
         root.get("field") >> path
 
         and: "The specification is created"
-        def spec = service.fromFilters(filters)
+        def spec = service.fromFiltersString(filters)
 
         when: "The specification is applied"
         spec.get().toPredicate(root, criteriaQuery, criteriaBuilder)
@@ -58,7 +58,7 @@ class SpecificationServiceSpec extends Specification {
         given:
         String filters = "status in ACTIVE PENDING"
         root.get("status") >> path
-        def spec = service.fromFilters(filters)
+        def spec = service.fromFiltersString(filters)
 
         when:
         spec.get().toPredicate(root, criteriaQuery, criteriaBuilder)
@@ -78,7 +78,7 @@ class SpecificationServiceSpec extends Specification {
         def namePredicate = Mock(Predicate)
         def agePredicate = Mock(Predicate)
 
-        def spec = service.fromFilters(filters)
+        def spec = service.fromFiltersString(filters)
 
         when:
         spec.get().toPredicate(root, criteriaQuery, criteriaBuilder)
@@ -98,7 +98,7 @@ class SpecificationServiceSpec extends Specification {
         def cityPath = Mock(Path)
         root.get("address") >> addressPath
         addressPath.get("city") >> cityPath
-        def spec = service.fromFilters(filters)
+        def spec = service.fromFiltersString(filters)
 
         when:
         spec.get().toPredicate(root, criteriaQuery, criteriaBuilder)
@@ -112,7 +112,7 @@ class SpecificationServiceSpec extends Specification {
         // filter is provided by the where block
 
         when: "The specification is created"
-        def spec = service.fromFilters(filter)
+        def spec = service.fromFiltersString(filter)
 
         then: "An empty optional is returned"
         spec.isEmpty()
